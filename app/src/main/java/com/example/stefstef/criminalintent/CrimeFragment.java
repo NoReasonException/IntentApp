@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.stefstef.criminalintent.Models.Crime;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
@@ -39,7 +40,7 @@ public class CrimeFragment extends Fragment{
 
     private Crime       crime;
     private EditText    title;
-    private EditText    details;
+    private EditText details;
     private Switch      solvedSwitch;
     /**
      * @param savedInstanceState If the fragment is being re-created from
@@ -85,6 +86,7 @@ public class CrimeFragment extends Fragment{
     private void initializeReferences(@NonNull View v){
         this.title=v.findViewById(R.id.Title);
         this.details=v.findViewById(R.id.Details);
+
         this.solvedSwitch=v.findViewById(R.id.Solved);
     }
 
@@ -96,6 +98,15 @@ public class CrimeFragment extends Fragment{
     private void updateView(@NonNull View v){
         this.title.setText(this.crime.getTitle());
         this.details.setText(DateFormat.getInstance().format(this.crime.getDate()));
+        this.details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CrimeDatePicker picker= new CrimeDatePicker();
+                picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
+                        CrimeDatePicker.DIALOG_DATE_TAG);
+
+            }
+        });
         this.solvedSwitch.setChecked(this.crime.isSolved());
     }
 
