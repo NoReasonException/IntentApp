@@ -1,6 +1,7 @@
 package com.example.stefstef.criminalintent;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -54,6 +55,8 @@ public class CrimeFragment extends Fragment{
     }
 
     /***
+     * Return the fragments View
+     *
      * @param inflater           The LayoutInflater object that can be used to inflate
      *                           any views in the fragment,
      * @param container          If non-null, this is the parent view that the fragment's
@@ -73,16 +76,32 @@ public class CrimeFragment extends Fragment{
         return v;
 
     }
-    private void initializeReferences(View v){
+
+    /***
+     * Initialize the class references , the view cant be null!
+     *
+     * @param v The view to take references
+     */
+    private void initializeReferences(@NonNull View v){
         this.title=v.findViewById(R.id.Title);
         this.details=v.findViewById(R.id.Details);
         this.solvedSwitch=v.findViewById(R.id.Solved);
     }
-    private void updateView(View v){
+
+    /***
+     * Updates the view with the this.crime Data
+     *
+     * @param v , the view to update
+     */
+    private void updateView(@NonNull View v){
         this.title.setText(this.crime.getTitle());
         this.details.setText(DateFormat.getInstance().format(this.crime.getDate()));
         this.solvedSwitch.setChecked(this.crime.isSolved());
     }
+
+    /***
+     * Initialzize listeners , to update the data inside the crime object
+     */
     private void initializeListeners(){
         this.solvedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -93,12 +112,12 @@ public class CrimeFragment extends Fragment{
         this.title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                return;
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                return;
             }
 
             @Override
