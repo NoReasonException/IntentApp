@@ -5,6 +5,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.annotation.NonNull;
 import android.content.DialogInterface;
 import java.util.GregorianCalendar;
+
+import android.support.v4.app.Fragment;
 import android.widget.DatePicker;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -34,11 +36,12 @@ public class CrimeDatePicker extends DialogFragment {
      * @param param The date paramater
      * @return CrimeDatePicker
      */
-    public static CrimeDatePicker getInstance(@NonNull Date param){
+    public static CrimeDatePicker getInstance(@NonNull Date param, Fragment targetFragment){
         CrimeDatePicker picker = new CrimeDatePicker();
         Bundle args= new Bundle();
         args.putSerializable(CrimeDatePicker.DIALOG_DATE_TAG,param);
         picker.setArguments(args);
+        picker.setTargetFragment(targetFragment,CrimeFragment.REQUEST_NEW_DATE);
         return picker;
     }
     @Override

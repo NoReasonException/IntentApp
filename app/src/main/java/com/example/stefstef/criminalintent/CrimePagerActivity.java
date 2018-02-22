@@ -18,6 +18,7 @@ import java.util.UUID;
  */
 
 public class CrimePagerActivity extends FragmentActivity {
+
     private ViewPager pager ;
     /**
      * Perform initialization of all fragments and loaders.
