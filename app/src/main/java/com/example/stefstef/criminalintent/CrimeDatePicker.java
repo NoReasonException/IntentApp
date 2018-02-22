@@ -2,6 +2,8 @@ package com.example.stefstef.criminalintent;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -21,7 +23,9 @@ import java.util.GregorianCalendar;
 
 public class CrimeDatePicker extends DialogFragment {
     public static java.lang.String DIALOG_DATE_TAG="date";
+    public static int RESPONCE_NEW_DATE=1;
     public static java.lang.String TAG="com.example.stefstef.criminalintent";
+
     private Date date;
     private java.util.Calendar  calendar;
     public static CrimeDatePicker getInstance(@NonNull Date param){
@@ -55,12 +59,23 @@ public class CrimeDatePicker extends DialogFragment {
         return new AlertDialog.Builder(this.getActivity())
                 .setView(datePicker)
                 .setTitle(R.string.date_picker_title)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        CrimeDatePicker.this.sendDate();
+                    }
+                })
                 .create();
     }
     @NonNull
     public CrimeDatePicker setDate(@NonNull Date cr){
         this.date =cr;
         return this;
+    }
+    private void sendDate(){
+        Intent intent = new Intent();
+        intent.putExtra(CrimeDatePicker.DIALOG_DATE_TAG,this.date);
+        this.getTargetFragment().onActivityResult(CrimeFragment.REQUEST_NEW_DATE,CrimeDatePicker.RESPONCE_NEW_DATE,intent);
     }
 
 }

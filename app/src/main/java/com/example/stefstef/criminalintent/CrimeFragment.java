@@ -30,6 +30,7 @@ import java.util.UUID;
 public class CrimeFragment extends Fragment{
     public static java.lang.String TAG="CrimeFragmentLog";
     public static java.lang.String EXTRA_CRIME_UUID="Crime";
+    public static final int        REQUEST_NEW_DATE=0;
 
     public static CrimeFragment getInstance(UUID id){
         CrimeFragment fr = new CrimeFragment();
@@ -95,6 +96,10 @@ public class CrimeFragment extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==CrimeDatePicker.RESPONCE_NEW_DATE){
+            this.crime.setDate((java.util.Date)data.getSerializableExtra(CrimeDatePicker.DIALOG_DATE_TAG));
+        }
+
         this.updateView(this.getView());
     }
 
@@ -123,6 +128,7 @@ public class CrimeFragment extends Fragment{
             public void onClick(View view) {
                 Log.i(CrimeFragment.TAG,"Date pressed , CrimeDatePicked initialization...");
                 CrimeDatePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate());
+                picker.setTargetFragment(CrimeFragment.this,REQUEST_NEW_DATE);
                 picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
                         CrimeDatePicker.DIALOG_DATE_TAG);
 
@@ -159,4 +165,5 @@ public class CrimeFragment extends Fragment{
             }
         });
     }
+
 }
