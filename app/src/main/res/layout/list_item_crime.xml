@@ -18,7 +18,7 @@
         android:layout_alignParentLeft="true"
         android:textSize="18sp"
         android:id="@+id/ctitle"
-        android:text="Title"/>
+        android:text="@string/crime_title"/>
     <TextView
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
@@ -27,6 +27,6 @@
         android:layout_alignParentLeft="true"
         android:id="@+id/cdate"
         android:textSize="18sp"
-        android:text="Date"/>
+        android:text="@string/date"/>
 
 </RelativeLayout>

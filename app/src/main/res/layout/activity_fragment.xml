@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title" />
+        android:text="@string/crime_title" />
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Details" />
+        android:text="@string/details" />
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
@@ -41,6 +41,6 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Solved?" />
+        android:text="@string/solved" />
 
 </LinearLayout>

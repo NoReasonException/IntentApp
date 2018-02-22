@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 
 public class CrimeLab {
-    private static CrimeLab ourInstance=null;
+    private static CrimeLab     ourInstance=null;
     private ArrayList<Crime>    crimes  =new ArrayList<>();
     private Context             context =null;
     @NonNull
@@ -52,6 +52,6 @@ public class CrimeLab {
     }
     private CrimeLab(Context c) {
         this.context=c;
-        this.crimes=new ArrayList<Crime>();
+        this.crimes=new ArrayList<>();
     }
 }
