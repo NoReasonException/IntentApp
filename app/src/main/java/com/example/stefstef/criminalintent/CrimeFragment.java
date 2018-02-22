@@ -101,7 +101,8 @@ public class CrimeFragment extends Fragment{
         this.details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CrimeDatePicker picker= new CrimeDatePicker();
+                Log.i(CrimeFragment.TAG,"Date pressed , CrimeDatePicked initialization...");
+                CrimeDatePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate());
                 picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
                         CrimeDatePicker.DIALOG_DATE_TAG);
 
