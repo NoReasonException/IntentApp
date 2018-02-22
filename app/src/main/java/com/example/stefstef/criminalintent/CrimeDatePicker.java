@@ -49,9 +49,11 @@ public class CrimeDatePicker extends DialogFragment {
                 new DatePicker.OnDateChangedListener() {
                     @Override
                     public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                        Date date=new GregorianCalendar(i,i1,i2).getTime();
+                        CrimeDatePicker.this.date=date;
                         Log.i(CrimeDatePicker.TAG, String.format("Date changed to year:%d month:%d day:%d",i,i1,i2));
                         CrimeDatePicker.this.getArguments().putSerializable(
-                                CrimeDatePicker.DIALOG_DATE_TAG,new GregorianCalendar(i,i1,i2).getTime());
+                                CrimeDatePicker.DIALOG_DATE_TAG,date);
                     }
                 });
         datePicker.setMaxDate(new Date().getTime());

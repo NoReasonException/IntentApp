@@ -98,8 +98,9 @@ public class CrimeFragment extends Fragment{
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==CrimeDatePicker.RESPONCE_NEW_DATE){
             this.crime.setDate((java.util.Date)data.getSerializableExtra(CrimeDatePicker.DIALOG_DATE_TAG));
+            Log.i(CrimeFragment.TAG,this.crime.getDate().toString());
         }
-
+        Log.i(CrimeFragment.TAG,"onActivityResult triggered");
         this.updateView(this.getView());
     }
 
@@ -123,17 +124,7 @@ public class CrimeFragment extends Fragment{
     private void updateView(@NonNull View v){
         this.title.setText(this.crime.getTitle());
         this.details.setText(DateFormat.getInstance().format(this.crime.getDate()));
-        this.details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i(CrimeFragment.TAG,"Date pressed , CrimeDatePicked initialization...");
-                CrimeDatePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate());
-                picker.setTargetFragment(CrimeFragment.this,REQUEST_NEW_DATE);
-                picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
-                        CrimeDatePicker.DIALOG_DATE_TAG);
 
-            }
-        });
         this.solvedSwitch.setChecked(this.crime.isSolved());
     }
 
@@ -160,8 +151,18 @@ public class CrimeFragment extends Fragment{
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.i(TAG,"afterTextCHanged");
                 CrimeFragment.this.crime.setTitle(editable.toString());
+            }
+        });
+        this.details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(CrimeFragment.TAG,"Date pressed , CrimeDatePicked initialization...");
+                CrimeDatePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate());
+                picker.setTargetFragment(CrimeFragment.this,REQUEST_NEW_DATE);
+                picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
+                        CrimeDatePicker.DIALOG_DATE_TAG);
+
             }
         });
     }
