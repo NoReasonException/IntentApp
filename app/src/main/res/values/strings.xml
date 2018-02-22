@@ -2,5 +2,5 @@
     <string name="app_name">CriminalIntent</string>
     <string name="crime_title">Crime Title</string>
     <string name="ok">OK</string>
-    <string name="date_picker_title">Date of crime!</string>
+    <string name="date_picker_title">Set new date!</string>
 </resources>

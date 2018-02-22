@@ -5,14 +5,15 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.DatePicker;
 
-import com.example.stefstef.criminalintent.Misc.CrimeArrayAdapter;
+import com.example.stefstef.criminalintent.Models.Crime;
 
+import java.security.InvalidParameterException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by stefstef on 22/2/2018.
@@ -21,13 +22,22 @@ import java.util.Date;
 public class CrimeDatePicker extends DialogFragment {
     public static java.lang.String DIALOG_DATE_TAG="date";
     public static java.lang.String TAG="com.example.stefstef.criminalintent";
-    private java.util.Date      date ;
+    private Date date;
     private java.util.Calendar  calendar;
     public static CrimeDatePicker getInstance(@NonNull Date param){
-        return new CrimeDatePicker().setDate(param);
+        CrimeDatePicker picker = new CrimeDatePicker();
+        Bundle args= new Bundle();
+        args.putSerializable(CrimeDatePicker.DIALOG_DATE_TAG,param);
+        picker.setArguments(args);
+        return picker;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
+        this.date=(java.util.Date)this.getArguments().getSerializable(CrimeDatePicker.DIALOG_DATE_TAG);
+        if(this.date==null){
+            throw new InvalidParameterException("Please call CrimeDatePicker.getInstance(java.utill.Date date)");
+        }
+
         this.calendar=Calendar.getInstance();
         calendar.setTime(this.date);
         DatePicker datePicker = new DatePicker(this.getActivity());
@@ -35,21 +45,21 @@ public class CrimeDatePicker extends DialogFragment {
                 new DatePicker.OnDateChangedListener() {
                     @Override
                     public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                        Calendar c=CrimeDatePicker.this.calendar;
-                        c.add(Calendar.YEAR,i);
-                        c.add(Calendar.MONTH,i1);
-                        c.add(Calendar.DATE,i2);
                         Log.i(CrimeDatePicker.TAG, String.format("Date changed to year:%d month:%d day:%d",i,i1,i2));
+                        CrimeDatePicker.this.getArguments().putSerializable(
+                                CrimeDatePicker.DIALOG_DATE_TAG,new GregorianCalendar(i,i1,i2).getTime());
                     }
                 });
+        datePicker.setMaxDate(new Date().getTime());
+
         return new AlertDialog.Builder(this.getActivity())
-                .setView(new DatePicker(this.getActivity()))
+                .setView(datePicker)
                 .setTitle(R.string.date_picker_title)
-                .setPositiveButton(R.string.ok,null)
                 .create();
     }
-    public CrimeDatePicker setDate(Date date){
-        this.date=date;
+    @NonNull
+    public CrimeDatePicker setDate(@NonNull Date cr){
+        this.date =cr;
         return this;
     }
 
