@@ -1,16 +1,15 @@
 package com.example.stefstef.criminalintent;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import com.example.stefstef.criminalintent.Models.CrimeLab;
+import com.example.stefstef.criminalintent.Models.Crime;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-
-import com.example.stefstef.criminalintent.Models.Crime;
-import com.example.stefstef.criminalintent.Models.CrimeLab;
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
 
 import java.util.UUID;
 

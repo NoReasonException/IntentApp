@@ -1,19 +1,18 @@
 package com.example.stefstef.criminalintent;
 
-import android.app.Fragment;
-import android.app.ListFragment;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.example.stefstef.criminalintent.Misc.CrimeArrayAdapter;
-import com.example.stefstef.criminalintent.Models.Crime;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
+import com.example.stefstef.criminalintent.Models.Crime;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.util.Log;
+
+
+
 
 /**
  * CrimeListFragment
@@ -44,9 +43,10 @@ import com.example.stefstef.criminalintent.Models.CrimeLab;
     * make the checkbox as -> focusable , false because this can never be run otherwise!*/
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-                             /*-----------------\You can pass also CrimeActivity , is already set!*/
+                             //-----------------\You can pass also CrimeActivity , is already set!
+                            //                   \
         Intent i = new Intent(this.getActivity(),CrimePagerActivity.class);
-        Log.i(CrimeListFragment.TAG,"Intent created");
+        Log.i(CrimeListFragment.TAG,"CrimePagerActivity initialization ");
         i.putExtra(CrimeFragment.EXTRA_CRIME_UUID,CrimeLab.getInstance(this.getActivity()).getCrimes().get(position).getId());
         this.startActivity(i);
     }

@@ -1,37 +1,40 @@
 package com.example.stefstef.criminalintent;
 
-import android.content.Intent;
-import android.os.Bundle;
+import com.example.stefstef.criminalintent.Models.Crime;
+import com.example.stefstef.criminalintent.Models.CrimeLab;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.view.LayoutInflater;
+import android.text.TextWatcher;
 import android.widget.EditText;
+import android.content.Intent;
+import android.view.ViewGroup;
+import android.text.Editable;
 import android.widget.Switch;
-import android.widget.TextView;
-
-import com.example.stefstef.criminalintent.Models.Crime;
-import com.example.stefstef.criminalintent.Models.CrimeLab;
-
 import java.text.DateFormat;
+import android.view.View;
+import android.os.Bundle;
+import android.util.Log;
 import java.util.UUID;
 
-/**
- * Created by stefstef on 20/2/2018.
- */
-
 public class CrimeFragment extends Fragment{
-    public static java.lang.String TAG="CrimeFragmentLog";
-    public static java.lang.String EXTRA_CRIME_UUID="Crime";
-    public static final int        REQUEST_NEW_DATE=0;
+    //-------------------------------Public Section------------------------------------------------//
+    public static java.lang.String TAG="CrimeFragmentLog";  //LogTag
+    public static java.lang.String EXTRA_CRIME_UUID="Crime";//To pass the crime ID in intent..
+    public static final int        REQUEST_NEW_DATE=0;      //The Request Code for CrimeDatePicker
+    //--------------------------------Private Section----------------------------------------------//
+    private Crime       crime;
+    private EditText    title;
+    private EditText    details;
+    private Switch      solvedSwitch;
 
+    /***
+     * TODO , why dont pass the whole Crime Object dude?
+     * @param id , the ID of the crime to display
+     * @return  A initialized CrimeFragment!
+     */
     public static CrimeFragment getInstance(UUID id){
         CrimeFragment fr = new CrimeFragment();
         Bundle args = new Bundle();
@@ -40,10 +43,6 @@ public class CrimeFragment extends Fragment{
         return fr;
     }
 
-    private Crime       crime;
-    private EditText    title;
-    private EditText details;
-    private Switch      solvedSwitch;
     /**
      * @param savedInstanceState If the fragment is being re-created from
      *                           a previous saved state, this is the state.
@@ -129,7 +128,8 @@ public class CrimeFragment extends Fragment{
     }
 
     /***
-     * Initialzize listeners , to update the data inside the crime object
+     * Initialzize the views Listeners
+     * @Note , must by called first updateView(View v)
      */
     private void initializeListeners(){
         this.solvedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
