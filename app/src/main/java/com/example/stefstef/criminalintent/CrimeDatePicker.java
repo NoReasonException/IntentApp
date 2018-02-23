@@ -24,7 +24,7 @@ public class CrimeDatePicker extends DialogFragment {
     //----------------------------Public Section----------------------------------//
     public static java.lang.String TAG="com.example.stefstef.criminalintent";    //Log Tag
     public static java.lang.String DIALOG_DATE_TAG="date";                      //Parameter in intent
-    public static int RESPONCE_NEW_DATE=1;                                     //Responce to CrimeFragment
+    public static int RESPONCE_NEW_DATE=-1;                                     //Responce to CrimeFragment
     //----------------------------Private Section-----------------------------//
     private Date date;
     private java.util.Calendar  calendar;
@@ -36,12 +36,14 @@ public class CrimeDatePicker extends DialogFragment {
      * @param param The date paramater
      * @return CrimeDatePicker
      */
-    public static CrimeDatePicker getInstance(@NonNull Date param, Fragment targetFragment){
+    public static CrimeDatePicker getInstance(@NonNull Date param,
+                                              Fragment targetFragment,
+                                              final int requestCode){
         CrimeDatePicker picker = new CrimeDatePicker();
         Bundle args= new Bundle();
         args.putSerializable(CrimeDatePicker.DIALOG_DATE_TAG,param);
         picker.setArguments(args);
-        picker.setTargetFragment(targetFragment,CrimeFragment.REQUEST_NEW_DATE);
+        picker.setTargetFragment(targetFragment,requestCode);
         return picker;
     }
     @Override

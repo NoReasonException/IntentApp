@@ -23,7 +23,8 @@ public class CrimeFragment extends Fragment{
     //-------------------------------Public Section------------------------------------------------//
     public static java.lang.String TAG="CrimeFragmentLog";  //LogTag
     public static java.lang.String EXTRA_CRIME_UUID="Crime";//To pass the crime ID in intent..
-    public static final int        REQUEST_NEW_DATE=0;      //The Request Code for CrimeDatePicker
+    public static final int        REQUEST_NEW_DATE=1;      //The Request Code for CrimeDatePicker
+    public static final int        REQUEST_NEW_TIME=2;      //The Request Code for CrimeDatePicker
     //--------------------------------Private Section----------------------------------------------//
     private Crime       crime;
     private EditText    title;
@@ -158,7 +159,9 @@ public class CrimeFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Log.i(CrimeFragment.TAG,"Date pressed , CrimeDatePicked initialization...");
-                CrimeDatePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate(),CrimeFragment.this);
+                CrimeDatePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate(),
+                        CrimeFragment.this,
+                        CrimeFragment.REQUEST_NEW_DATE);
                 picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
                         CrimeDatePicker.DIALOG_DATE_TAG);
 
