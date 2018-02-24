@@ -3,6 +3,8 @@ package com.example.stefstef.criminalintent;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -70,6 +72,27 @@ public class CrimePickerPagerDialog extends DialogFragment {
     private void initializeReferences(View v){
         this.radioLay=v.findViewById(R.id.radioLinear);
         this.pager=v.findViewById(R.id.viewPager);
+    }
+    private void setRadioButtonOnPosition(int position){
+
+        Handler handler=new Handler();
+        handler.post(new Runnable() {
+            int position=0;
+            @Override
+            public void run() {
+                Log.i("submit","setRadioButtonOnPosition");
+                for (RadioButton b:CrimePickerPagerDialog.this.radioButtons) {
+                    b.setChecked(false);
+
+                }
+                CrimePickerPagerDialog.this.radioButtons.get(position).setChecked(true);
+            }
+            public Runnable init(int position){
+                this.position=position;
+                return this;
+            }
+        }.init(position));
+
 
     }
 
@@ -93,6 +116,7 @@ public class CrimePickerPagerDialog extends DialogFragment {
                             CrimePickerPagerDialog.this.fragments.add(
                                     CrimePicker.getInstance(new Date(),null,12,f.newInstance())
                             );
+                            CrimePickerPagerDialog.this.setRadioButtonOnPosition(position);
 
                         }catch (Exception e){e.printStackTrace();}
                     }
@@ -105,6 +129,22 @@ public class CrimePickerPagerDialog extends DialogFragment {
             public int getCount() {
 
                 return CrimePickerPagerDialog.this.fragmentsClasses.size();
+            }
+        });
+        this.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                CrimePickerPagerDialog.this.setRadioButtonOnPosition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
 
