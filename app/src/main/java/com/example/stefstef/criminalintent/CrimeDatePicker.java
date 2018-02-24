@@ -1,7 +1,6 @@
 package com.example.stefstef.criminalintent;
 
 import java.security.InvalidParameterException;
-import android.support.v4.app.DialogFragment;
 import android.support.annotation.NonNull;
 import android.content.DialogInterface;
 import java.util.GregorianCalendar;
@@ -9,16 +8,11 @@ import java.util.GregorianCalendar;
 import android.support.v4.app.Fragment;
 import android.widget.DatePicker;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.app.Dialog;
 import java.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import java.util.Date;
-
-/**
- * Created by stefstef on 22/2/2018.
- */
 
 public class CrimeDatePicker extends CrimePicker {
     //----------------------------Public Section----------------------------------//
