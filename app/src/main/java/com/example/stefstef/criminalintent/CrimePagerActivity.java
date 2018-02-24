@@ -1,9 +1,8 @@
 package com.example.stefstef.criminalintent;
 
 import com.example.stefstef.criminalintent.Models.CrimeLab;
-import com.example.stefstef.criminalintent.Models.Crime;
+
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.annotation.Nullable;
@@ -31,7 +30,7 @@ public class CrimePagerActivity extends FragmentActivity {
         //Because of simplicity , we inject an ViewPager directy instead of
         //Inflate a .xml file
         this.pager=new ViewPager(this);
-        this.pager.setId(R.id.viewPager);
+        this.pager.setId(R.id.crimeViewPager);
         setContentView(this.pager);
 
 
