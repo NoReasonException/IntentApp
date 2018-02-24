@@ -17,21 +17,13 @@ import java.util.Calendar;
  * Created by stefstef on 24/2/2018.
  */
 
-public class CrimeTimePicker extends DialogFragment {
+public class CrimeTimePicker extends CrimePicker {
     public static java.lang.String  TAG="CrimeTimePicker";
-    public static java.lang.String  dateHash="com.example.stefstef.criminalintent";
     public static final int         RESPONCE_NEW_TIME=-2;
-    public java.util.Date           date;
-    public java.util.Calendar       calendar;
-    public static CrimeTimePicker getInstance(java.util.Date date,
+    public static CrimePicker getInstance(java.util.Date date,
                                               android.support.v4.app.Fragment targetFragment,
                                               final int requestCode){
-        Bundle args = new Bundle();
-        CrimeTimePicker p=new CrimeTimePicker();
-        args.putSerializable(CrimeTimePicker.dateHash,date);
-        p.setArguments(args);
-        p.setTargetFragment(targetFragment,requestCode);
-        return p;
+        return CrimeTimePicker.getInstance(date,targetFragment,requestCode,new CrimeTimePicker());
     }
     @NonNull
     @Override
@@ -55,17 +47,11 @@ public class CrimeTimePicker extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        CrimeTimePicker.this.sendDate();
+                        CrimeTimePicker.this.sendDate(CrimeFragment.REQUEST_NEW_TIME,CrimeTimePicker.RESPONCE_NEW_TIME);
                     }
                 })
                 .create();
 
 
-    }
-    /*This method calls the targets fragment onActivityResult to pass the data.*/
-    private void sendDate(){
-        Intent intent = new Intent();
-        intent.putExtra(CrimeDatePicker.DIALOG_DATE_TAG,this.date);
-        this.getTargetFragment().onActivityResult(CrimeFragment.REQUEST_NEW_DATE,CrimeDatePicker.RESPONCE_NEW_DATE,intent);
     }
 }

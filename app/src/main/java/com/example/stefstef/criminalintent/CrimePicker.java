@@ -16,9 +16,9 @@ public class CrimePicker extends DialogFragment {
 
 
     //expected to initialized in override version of onCreateDialog
-    public static java.lang.String DIALOG_DATE_TAG="date"; //Parameter in intent
-    private Date date;
-    private java.util.Calendar  calendar;
+    public static java.lang.String  dateHash="com.example.stefstef.criminalintent";
+    protected Date date;
+    protected java.util.Calendar  calendar;
 
 
     protected static CrimePicker getInstance(@NonNull Date param,
@@ -26,7 +26,7 @@ public class CrimePicker extends DialogFragment {
                                               final int requestCode,
                                               CrimePicker picker){
         Bundle args= new Bundle();
-        args.putSerializable(CrimeDatePicker.DIALOG_DATE_TAG,param);
+        args.putSerializable(CrimePicker.dateHash,param);
         picker.setArguments(args);
         picker.setTargetFragment(targetFragment,requestCode);
         return picker;
