@@ -20,14 +20,11 @@ import java.util.Date;
  * Created by stefstef on 22/2/2018.
  */
 
-public class CrimeDatePicker extends DialogFragment {
+public class CrimeDatePicker extends CrimePicker {
     //----------------------------Public Section----------------------------------//
     public static java.lang.String TAG="com.example.stefstef.criminalintent";    //Log Tag
-    public static java.lang.String DIALOG_DATE_TAG="date";                      //Parameter in intent
     public static int RESPONCE_NEW_DATE=-1;                                     //Responce to CrimeFragment
     //----------------------------Private Section-----------------------------//
-    private Date date;
-    private java.util.Calendar  calendar;
 
     /***
      * To get a proper instance of CrimeDatePicker
@@ -36,20 +33,15 @@ public class CrimeDatePicker extends DialogFragment {
      * @param param The date paramater
      * @return CrimeDatePicker
      */
-    public static CrimeDatePicker getInstance(@NonNull Date param,
+    public static CrimePicker getInstance(@NonNull Date param,
                                               Fragment targetFragment,
                                               final int requestCode){
-        CrimeDatePicker picker = new CrimeDatePicker();
-        Bundle args= new Bundle();
-        args.putSerializable(CrimeDatePicker.DIALOG_DATE_TAG,param);
-        picker.setArguments(args);
-        picker.setTargetFragment(targetFragment,requestCode);
-        return picker;
+        return CrimePicker.getInstance(param,targetFragment,requestCode,new CrimeDatePicker());
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         /*In case of not calling the getInstance()*/
-        this.date=(java.util.Date)this.getArguments().getSerializable(CrimeDatePicker.DIALOG_DATE_TAG);
+        this.date=(java.util.Date)this.getArguments().getSerializable(CrimePicker.dateHash);
         if(this.date==null){
             throw new InvalidParameterException("Please call CrimeDatePicker.getInstance(java.utill.Date date)");
         }
@@ -67,7 +59,7 @@ public class CrimeDatePicker extends DialogFragment {
                         CrimeDatePicker.this.date=date;
                         Log.i(CrimeDatePicker.TAG, String.format("Date changed to year:%d month:%d day:%d",i,i1,i2));
                         CrimeDatePicker.this.getArguments().putSerializable(
-                                CrimeDatePicker.DIALOG_DATE_TAG,date);
+                                CrimePicker.dateHash,date);
                     }
                 });
         /*A crime cant occur tommorow! (unless we are the criminal :O)*/
@@ -81,16 +73,10 @@ public class CrimeDatePicker extends DialogFragment {
                     @Override
 
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        CrimeDatePicker.this.sendDate();
+                        CrimeDatePicker.this.sendDate(CrimeFragment.REQUEST_NEW_TIME,CrimeTimePicker.RESPONCE_NEW_TIME);
                     }
                 })
                 .create();
-    }
-    /*This method calls the targets fragment onActivityResult to pass the data.*/
-    private void sendDate(){
-        Intent intent = new Intent();
-        intent.putExtra(CrimeDatePicker.DIALOG_DATE_TAG,this.date);
-        this.getTargetFragment().onActivityResult(CrimeFragment.REQUEST_NEW_DATE,CrimeDatePicker.RESPONCE_NEW_DATE,intent);
     }
 
 }

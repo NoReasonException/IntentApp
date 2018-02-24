@@ -15,10 +15,12 @@ import java.util.Date;
 public class CrimePicker extends DialogFragment {
 
 
-    //expected to initialized in override version of onCreateDialog
+
     public static java.lang.String  dateHash="com.example.stefstef.criminalintent";
-    protected Date date;
-    protected java.util.Calendar  calendar;
+
+    //---------------------Protected Section-----------------------------------//
+    protected java.util.Calendar  calendar;         //Expected to initialized on onCreateDialog
+    protected Date date;                            //Expected to initialized on onCreateDialog
 
 
     protected static CrimePicker getInstance(@NonNull Date param,
@@ -35,9 +37,10 @@ public class CrimePicker extends DialogFragment {
 
     /*This method calls the targets fragment onActivityResult to pass the data.*/
     protected void sendDate(final int request,final int responce){
+        if(date==null)throw new IllegalStateException("you must initialize this.date and this.calendar on CrimePicker.onCreateDialog() ");
         Intent intent = new Intent();
-        intent.putExtra(CrimeDatePicker.DIALOG_DATE_TAG,this.date);
-        this.getTargetFragment().onActivityResult(CrimeFragment.REQUEST_NEW_DATE,CrimeDatePicker.RESPONCE_NEW_DATE,intent);
+        intent.putExtra(CrimeFragment.DIALOG_DATE_TAG,this.date);
+        this.getTargetFragment().onActivityResult(request,responce,intent);
     }
 
 

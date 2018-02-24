@@ -21,10 +21,11 @@ import java.util.UUID;
 
 public class CrimeFragment extends Fragment{
     //-------------------------------Public Section------------------------------------------------//
-    public static java.lang.String TAG="CrimeFragmentLog";  //LogTag
-    public static java.lang.String EXTRA_CRIME_UUID="Crime";//To pass the crime ID in intent..
-    public static final int        REQUEST_NEW_DATE=1;      //The Request Code for CrimeDatePicker
-    public static final int        REQUEST_NEW_TIME=2;      //The Request Code for CrimeDatePicker
+    public static java.lang.String  TAG="CrimeFragmentLog";  //LogTag
+    public static java.lang.String  EXTRA_CRIME_UUID="Crime";//To pass the crime ID in intent..
+    public static java.lang.String  DIALOG_DATE_TAG="com.example.stefstef.criminalintent";
+    public static final int         REQUEST_NEW_DATE=1;      //The Request Code for CrimeDatePicker
+    public static final int         REQUEST_NEW_TIME=2;      //The Request Code for CrimeDatePicker
     //--------------------------------Private Section----------------------------------------------//
     private Crime       crime;
     private EditText    title;
@@ -97,7 +98,7 @@ public class CrimeFragment extends Fragment{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==CrimeDatePicker.RESPONCE_NEW_DATE || resultCode==CrimeTimePicker.RESPONCE_NEW_TIME){
-            this.crime.setDate((java.util.Date)data.getSerializableExtra(CrimeDatePicker.DIALOG_DATE_TAG));
+            this.crime.setDate((java.util.Date)data.getSerializableExtra(CrimeFragment.DIALOG_DATE_TAG));
             Log.i(CrimeFragment.TAG,this.crime.getDate().toString());
         }
         Log.i(CrimeFragment.TAG,"onActivityResult triggered");
@@ -159,11 +160,11 @@ public class CrimeFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Log.i(CrimeFragment.TAG,"Date pressed , CrimeDatePicked initialization...");
-                CrimePicker picker= CrimeTimePicker.getInstance(CrimeFragment.this.crime.getDate(),
+                CrimePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate(),
                         CrimeFragment.this,
                         CrimeFragment.REQUEST_NEW_DATE);
                 picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
-                        CrimeDatePicker.DIALOG_DATE_TAG);
+                        CrimeFragment.DIALOG_DATE_TAG);
 
             }
         });
