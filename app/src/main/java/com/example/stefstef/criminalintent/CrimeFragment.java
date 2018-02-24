@@ -96,7 +96,7 @@ public class CrimeFragment extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==CrimeDatePicker.RESPONCE_NEW_DATE){
+        if(resultCode==CrimeDatePicker.RESPONCE_NEW_DATE || resultCode==CrimeTimePicker.RESPONCE_NEW_TIME){
             this.crime.setDate((java.util.Date)data.getSerializableExtra(CrimeDatePicker.DIALOG_DATE_TAG));
             Log.i(CrimeFragment.TAG,this.crime.getDate().toString());
         }
@@ -159,7 +159,7 @@ public class CrimeFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Log.i(CrimeFragment.TAG,"Date pressed , CrimeDatePicked initialization...");
-                CrimeDatePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate(),
+                CrimeTimePicker picker= CrimeTimePicker.getInstance(CrimeFragment.this.crime.getDate(),
                         CrimeFragment.this,
                         CrimeFragment.REQUEST_NEW_DATE);
                 picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
