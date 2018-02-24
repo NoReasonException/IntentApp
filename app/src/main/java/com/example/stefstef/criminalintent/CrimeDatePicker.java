@@ -1,11 +1,19 @@
 package com.example.stefstef.criminalintent;
 
 import java.security.InvalidParameterException;
+
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
 import android.content.DialogInterface;
 import java.util.GregorianCalendar;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManagerNonConfig;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -33,7 +41,7 @@ public class CrimeDatePicker extends CrimePicker {
         return CrimePicker.getInstance(param,targetFragment,requestCode,new CrimeDatePicker());
     }
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater infl, ViewGroup vg, Bundle savedInstanceState){
         /*In case of not calling the getInstance()*/
         this.date=(java.util.Date)this.getArguments().getSerializable(CrimePicker.dateHash);
         if(this.date==null){
@@ -59,18 +67,7 @@ public class CrimeDatePicker extends CrimePicker {
         /*A crime cant occur tommorow! (unless we are the criminal :O)*/
         datePicker.setMaxDate(new Date().getTime());
         /*Here we inject the DatePicker without inflated first , so lets mark it as #TODO :) */
-
-        return new AlertDialog.Builder(this.getActivity())
-                .setView(datePicker)                                //TODO , Make a .xml and inflated it!
-                .setTitle(R.string.date_picker_title)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        CrimeDatePicker.this.sendDate(CrimeFragment.REQUEST_NEW_TIME,CrimeTimePicker.RESPONCE_NEW_TIME);
-                    }
-                })
-                .create();
+        return datePicker;
     }
 
 }

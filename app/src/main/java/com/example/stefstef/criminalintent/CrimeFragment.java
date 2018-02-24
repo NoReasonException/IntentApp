@@ -4,6 +4,7 @@ import com.example.stefstef.criminalintent.Models.Crime;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.widget.CompoundButton;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ public class CrimeFragment extends Fragment{
     //-------------------------------Public Section------------------------------------------------//
     public static java.lang.String  TAG="CrimeFragmentLog";  //LogTag
     public static java.lang.String  EXTRA_CRIME_UUID="Crime";//To pass the crime ID in intent..
-    public static java.lang.String  DIALOG_DATE_TAG="com.example.stefstef.criminalintent";
+    public static java.lang.String  DIALOG_DATE_TAG="criminalintent";
     public static final int         REQUEST_NEW_DATE=1;      //The Request Code for CrimeDatePicker
     public static final int         REQUEST_NEW_TIME=2;      //The Request Code for CrimeDatePicker
     //--------------------------------Private Section----------------------------------------------//
@@ -160,9 +161,10 @@ public class CrimeFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Log.i(CrimeFragment.TAG,"Date pressed , CrimeDatePicked initialization...");
-                CrimePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate(),
+                /*CrimePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate(),
                         CrimeFragment.this,
-                        CrimeFragment.REQUEST_NEW_DATE);
+                        CrimeFragment.REQUEST_NEW_DATE);*/
+                DialogFragment picker=new CrimePickerPagerDialog();
                 picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
                         CrimeFragment.DIALOG_DATE_TAG);
 

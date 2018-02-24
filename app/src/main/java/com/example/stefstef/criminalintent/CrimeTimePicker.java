@@ -7,7 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.security.InvalidParameterException;
@@ -27,7 +32,7 @@ public class CrimeTimePicker extends CrimePicker {
     }
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater infl,ViewGroup vg,Bundle savedInstanceState) {
         this.date=(java.util.Date)getArguments().getSerializable(CrimeTimePicker.dateHash);
         if(this.date==null){throw new InvalidParameterException("use CrimeTmePicker.getInstance();");}
         this.calendar=Calendar.getInstance();
@@ -40,17 +45,10 @@ public class CrimeTimePicker extends CrimePicker {
             public void onTimeChanged(TimePicker timePicker, int i, int i1) {
                 CrimeTimePicker.this.calendar.set(Calendar.HOUR,i);
                 CrimeTimePicker.this.calendar.set(Calendar.MINUTE,i1);
+                //TODO:handle rotation bug
             }
         });
-        return new AlertDialog.Builder(this.getActivity())
-                .setView(p)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        CrimeTimePicker.this.sendDate(CrimeFragment.REQUEST_NEW_TIME,CrimeTimePicker.RESPONCE_NEW_TIME);
-                    }
-                })
-                .create();
+        return p;
 
 
     }

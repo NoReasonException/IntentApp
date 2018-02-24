@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import java.util.Date;
 
 /**
@@ -56,6 +58,11 @@ public class CrimePicker extends DialogFragment {
         Intent intent = new Intent();
         intent.putExtra(CrimeFragment.DIALOG_DATE_TAG,this.date);
         this.getTargetFragment().onActivityResult(request,responce,intent);
+    }
+
+    protected CrimePicker setView(View v){
+        this.setView(v);
+        return this;
     }
 
 
