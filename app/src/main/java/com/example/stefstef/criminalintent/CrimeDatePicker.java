@@ -37,7 +37,7 @@ public class CrimeDatePicker extends CrimePicker {
      */
     public static CrimePicker getInstance(@NonNull Date param,
                                               Fragment targetFragment,
-                                              final int requestCode){
+                                              Integer requestCode){
         return CrimePicker.getInstance(param,targetFragment,requestCode,new CrimeDatePicker());
     }
     @Override

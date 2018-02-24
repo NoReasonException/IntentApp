@@ -27,7 +27,7 @@ public class CrimeTimePicker extends CrimePicker {
     public static final int         RESPONCE_NEW_TIME=-2;
     public static CrimePicker getInstance(java.util.Date date,
                                               android.support.v4.app.Fragment targetFragment,
-                                              final int requestCode){
+                                                Integer requestCode){
         return CrimeTimePicker.getInstance(date,targetFragment,requestCode,new CrimeTimePicker());
     }
     @NonNull

@@ -18,6 +18,9 @@ import java.text.DateFormat;
 import android.view.View;
 import android.os.Bundle;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment{
@@ -164,7 +167,10 @@ public class CrimeFragment extends Fragment{
                 /*CrimePicker picker= CrimeDatePicker.getInstance(CrimeFragment.this.crime.getDate(),
                         CrimeFragment.this,
                         CrimeFragment.REQUEST_NEW_DATE);*/
-                DialogFragment picker=new CrimePickerPagerDialog();
+                DialogFragment picker=CrimePickerPagerDialog.getInstance(new ArrayList<Class<? extends CrimePicker>>(){{
+                    this.add(CrimeDatePicker.class);
+                    this.add(CrimeTimePicker.class);
+                }});
                 picker.show(CrimeFragment.this.getActivity().getSupportFragmentManager(),
                         CrimeFragment.DIALOG_DATE_TAG);
 
