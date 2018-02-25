@@ -60,10 +60,4 @@ public class CrimePicker extends DialogFragment {
         this.getTargetFragment().onActivityResult(request,responce,intent);
     }
 
-    protected CrimePicker setView(View v){
-        this.setView(v);
-        return this;
-    }
-
-
 }

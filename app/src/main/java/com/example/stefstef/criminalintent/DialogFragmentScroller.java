@@ -1,63 +1,65 @@
 package com.example.stefstef.criminalintent;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import java.security.InvalidParameterException;
+import android.support.v4.app.FragmentManager;
+import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-
-import java.lang.reflect.Method;
-import java.security.InvalidParameterException;
+import android.view.ViewGroup;
 import java.util.ArrayList;
+import android.os.Handler;
+import android.view.View;
+import android.os.Bundle;
+import android.util.Log;
 import java.util.Date;
 
-/**
- * Created by stefstef on 24/2/2018.
- */
 
-public class CrimePickerPagerDialog extends DialogFragment {
-    private static java.lang.String                 fragmentListHash="com.example.stefstef.criminalintent.CrimePickerPagerDialog";
+/***
+ * DialogFragmentScroller
+ * Takes Fragments , Represents it as Scrollable AlertBox
+ *
+ */
+public class DialogFragmentScroller extends DialogFragment {
+    //--------------------------------------------Private Section----------------------------------------------------------------//
+    private static java.lang.String                 fragmentListHash="com.example.stefstef.criminalintent.DialogFragmentScroller";
     private ViewPager                               pager;
-    private View                                    v;
+    private View                                    dialogView;
     private ArrayList<RadioButton>                  radioButtons;
     private ArrayList<Class<? extends CrimePicker>> fragmentsClasses;
     private ArrayList<Fragment>                     fragments;
     private LinearLayout                            radioLay;
 
-    public static CrimePickerPagerDialog getInstance(ArrayList<Class<? extends CrimePicker>> fragmentsList){
-        CrimePickerPagerDialog dialog = new CrimePickerPagerDialog();
+    /**
+     * getInstance(...
+     * @param fragmentsList The fragment's.class
+     * @return              A bright new DialogFragmentScroller
+     */
+    public static DialogFragmentScroller getInstance(ArrayList<Class<? extends CrimePicker>> fragmentsList){
+        DialogFragmentScroller dialog = new DialogFragmentScroller();
         Bundle args=new Bundle();
-        args.putSerializable(CrimePickerPagerDialog.fragmentListHash,fragmentsList);
+        args.putSerializable(DialogFragmentScroller.fragmentListHash,fragmentsList);
         dialog.setArguments(args);
         return dialog;
     }
-    /**
-     * Perform initialization of all fragments and loaders.
-     *
-     * @param savedInstanceState
-     */
     @Override
     @SuppressWarnings("unchecked")
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.fragmentsClasses=(ArrayList<Class<? extends CrimePicker>>) this.getArguments().getSerializable(CrimePickerPagerDialog.fragmentListHash);
-        if(this.fragmentsClasses==null){throw new InvalidParameterException("Use CrimePickerPagerDialog.getInstance()");}
+        this.fragmentsClasses=(ArrayList<Class<? extends CrimePicker>>) this.getArguments().getSerializable(DialogFragmentScroller.fragmentListHash);
+        if(this.fragmentsClasses==null){throw new InvalidParameterException("Use DialogFragmentScroller.getInstance()");}
 
     }
+
+    /***
+     * initializeRadioButtons
+     * @throws NullPointerException . Must call initializeReferences() first
+     */
     private void initializeRadioButtons(){
         this.radioButtons=new ArrayList<RadioButton>();
         RadioButton cursor;
@@ -69,10 +71,20 @@ public class CrimePickerPagerDialog extends DialogFragment {
 
 
     }
+
+    /***
+     * Updates the members of the class
+     * @param v , the inflated view
+     */
     private void initializeReferences(View v){
         this.radioLay=v.findViewById(R.id.radioLinear);
         this.pager=v.findViewById(R.id.viewPager);
     }
+
+    /***
+     * Submits a new job in looper , to update radiobuttons position
+     * @param position , the position to update
+     */
     private void setRadioButtonOnPosition(int position){
 
         Handler handler=new Handler();
@@ -81,11 +93,13 @@ public class CrimePickerPagerDialog extends DialogFragment {
             @Override
             public void run() {
                 Log.i("submit","setRadioButtonOnPosition");
-                for (RadioButton b:CrimePickerPagerDialog.this.radioButtons) {
+                for (RadioButton b:DialogFragmentScroller.this.radioButtons) {
                     b.setChecked(false);
+                    b.setEnabled(false);
 
                 }
-                CrimePickerPagerDialog.this.radioButtons.get(position).setChecked(true);
+                DialogFragmentScroller.this.radioButtons.get(position).setChecked(true);
+                DialogFragmentScroller.this.radioButtons.get(position).setEnabled(true);
             }
             public Runnable init(int position){
                 this.position=position;
@@ -99,8 +113,8 @@ public class CrimePickerPagerDialog extends DialogFragment {
     @NonNull
     @Override
     public View onCreateView(LayoutInflater infl, ViewGroup viewGroup,Bundle save){
-        this.v = infl.inflate(R.layout.datetime_config,viewGroup);
-        this.initializeReferences(v);
+        this.dialogView = infl.inflate(R.layout.datetime_config,viewGroup);
+        this.initializeReferences(dialogView);
         this.initializeRadioButtons();
 
         //this.pager=new ViewPager(this.getActivity());
@@ -109,26 +123,26 @@ public class CrimePickerPagerDialog extends DialogFragment {
         this.pager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public Fragment getItem(int position) {
-                if(CrimePickerPagerDialog.this.fragments==null){
-                    CrimePickerPagerDialog.this.fragments=new ArrayList<Fragment>();
-                    for (final Class<? extends CrimePicker> f:CrimePickerPagerDialog.this.fragmentsClasses){
+                if(DialogFragmentScroller.this.fragments==null){
+                    DialogFragmentScroller.this.fragments=new ArrayList<Fragment>();
+                    for (final Class<? extends CrimePicker> f:DialogFragmentScroller.this.fragmentsClasses){
                         try{
-                            CrimePickerPagerDialog.this.fragments.add(
+                            DialogFragmentScroller.this.fragments.add(
                                     CrimePicker.getInstance(new Date(),null,12,f.newInstance())
                             );
-                            CrimePickerPagerDialog.this.setRadioButtonOnPosition(position);
+                            DialogFragmentScroller.this.setRadioButtonOnPosition(position);
 
                         }catch (Exception e){e.printStackTrace();}
                     }
 
                 }
-                return CrimePickerPagerDialog.this.fragments.get(position);
+                return DialogFragmentScroller.this.fragments.get(position);
             }
 
             @Override
             public int getCount() {
 
-                return CrimePickerPagerDialog.this.fragmentsClasses.size();
+                return DialogFragmentScroller.this.fragmentsClasses.size();
             }
         });
         this.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -139,7 +153,7 @@ public class CrimePickerPagerDialog extends DialogFragment {
 
             @Override
             public void onPageSelected(int position) {
-                CrimePickerPagerDialog.this.setRadioButtonOnPosition(position);
+                DialogFragmentScroller.this.setRadioButtonOnPosition(position);
             }
 
             @Override
@@ -148,6 +162,6 @@ public class CrimePickerPagerDialog extends DialogFragment {
             }
         });
 
-        return v;
+        return dialogView;
     }
 }
