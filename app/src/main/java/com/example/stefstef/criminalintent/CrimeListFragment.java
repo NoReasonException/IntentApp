@@ -38,6 +38,12 @@ import android.util.Log;
     public void onResume() {
         super.onResume();
         this.getListView().invalidateViews();
+        CrimeLab.getInstance(this.getActivity()).updateCrimes();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.getInstance(this.getActivity()).updateCrimes();
     }
     /*
     * WARNING.

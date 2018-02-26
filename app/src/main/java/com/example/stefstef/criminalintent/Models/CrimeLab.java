@@ -1,8 +1,10 @@
 package com.example.stefstef.criminalintent.Models;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import org.json.JSONException;
 
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 public class CrimeLab {
     private static          CrimeLab                        ourInstance=null;
+    private static final    String                          TAG="CrimeLab_LOG";
     private                 ArrayList<Crime>                crimes  =new ArrayList<>();
     private                 Context                         context =null;
     private                 CriminalIntentJsonSerializer    serializer;
@@ -27,7 +30,15 @@ public class CrimeLab {
             CrimeLab.ourInstance.context=c;
             CrimeLab.ourInstance.serializer=new CriminalIntentJsonSerializer(
                     ourInstance.context,FILENAME);
-            //CrimeLab.ourInstance.foolInitializer();
+            try{
+                CrimeLab.ourInstance.getCrimes().addAll(
+                        CrimeLab.getInstance(c).getSerializer().loadCrimes()
+                );
+                Log.i(CrimeLab.TAG, String.format("%d crimes found",CrimeLab.ourInstance.getCrimes().size()));
+
+            }catch (Exception e){
+                Log.i(CrimeLab.TAG,"no crimes found!");
+            }
         }
         return ourInstance;
     }
@@ -59,6 +70,11 @@ public class CrimeLab {
         }
         return 0;
     }
+
+    public CriminalIntentJsonSerializer getSerializer() {
+        return serializer;
+    }
+
     public void foolInitializer(){
         for (int i = 0; i < 100 ;i++) {
             this.getCrimes().add(new Crime().

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.jar.JarEntry;
 
 /**
  * Created by stefstef on 20/2/2018.
@@ -29,7 +30,12 @@ public class Crime {
         this.mId=UUID.randomUUID();
         this.mDate=new Date();
     }
-
+    public Crime(JSONObject o)throws JSONException{
+        if(o.has(Crime.JSON_ID))this.mId=UUID.fromString(o.getString(Crime.JSON_ID));
+        if(o.has(Crime.JSON_TITLE))this.mTitle=o.getString(Crime.JSON_TITLE);
+        if(o.has(Crime.JSON_DATE))this.mDate=new Date(o.getLong(Crime.JSON_DATE));
+        if(o.has(Crime.JSON_SOLVED))this.misSolved=o.getBoolean(Crime.JSON_SOLVED);
+    }
     public Date getDate() {
         return mDate;
     }
@@ -68,7 +74,7 @@ public class Crime {
             return new JSONObject().put(Crime.JSON_ID,this.getId())
                     .put(Crime.JSON_TITLE,this.getTitle()
                     )
-                    .put(Crime.JSON_DATE,this.getDate())
+                    .put(Crime.JSON_DATE,this.getDate().getTime())
                     .put(Crime.JSON_SOLVED,this.isSolved());
         }catch (JSONException e){
             return null;
@@ -77,7 +83,7 @@ public class Crime {
 
     @Override
     public String toString() {
-        return this.mTitle;
+        return this.toJSON().toString();
     }
     public Crime logMe(){
         Log.i(Crime.TAG,this.toJSON().toString());
