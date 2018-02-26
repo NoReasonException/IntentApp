@@ -20,6 +20,8 @@ import android.app.Dialog;
 import java.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+
 import java.util.Date;
 
 public class CrimeDatePicker extends CrimePicker {
@@ -70,4 +72,31 @@ public class CrimeDatePicker extends CrimePicker {
         return datePicker;
     }
 
+    /**
+     * Override to build your own custom Dialog container.  This is typically
+     * used to show an AlertDialog instead of a generic Dialog; when doing so,
+     * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} does not need
+     * to be implemented since the AlertDialog takes care of its own content.
+     * <p>
+     * <p>This method will be called after {@link #onCreate(Bundle)} and
+     * before {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.  The
+     * default implementation simply instantiates and returns a {@link Dialog}
+     * class.
+     * <p>
+     * <p><em>Note: DialogFragment own the {@link Dialog#setOnCancelListener
+     * Dialog.setOnCancelListener} and {@link Dialog#setOnDismissListener
+     * Dialog.setOnDismissListener} callbacks.  You must not set them yourself.</em>
+     * To find out about these events, override {@link #onCancel(DialogInterface)}
+     * and {@link #onDismiss(DialogInterface)}.</p>
+     *
+     * @param savedInstanceState The last saved instance state of the Fragment,
+     *                           or null if this is a freshly created Fragment.
+     * @return Return a new Dialog instance to be displayed by the Fragment.
+     */
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new AlertDialog.Builder(this.getActivity())
+                .setPositiveButton("OK",null).create();
+    }
 }

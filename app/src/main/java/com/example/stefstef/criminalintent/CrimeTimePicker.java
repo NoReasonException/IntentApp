@@ -49,7 +49,5 @@ public class CrimeTimePicker extends CrimePicker {
             }
         });
         return p;
-
-
     }
 }

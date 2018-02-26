@@ -28,6 +28,7 @@ import java.util.Date;
 public class DialogFragmentScroller extends DialogFragment {
     //--------------------------------------------Private Section----------------------------------------------------------------//
     private static java.lang.String                 fragmentListHash="com.example.stefstef.criminalintent.DialogFragmentScroller";
+    private static java.lang.String                 TAG="DialogFragmentScroller_LOG:";
     private ViewPager                               pager;
     private View                                    dialogView;
     private ArrayList<RadioButton>                  radioButtons;
@@ -136,7 +137,9 @@ public class DialogFragmentScroller extends DialogFragment {
                     }
 
                 }
-                return DialogFragmentScroller.this.fragments.get(position);
+                Fragment fr = DialogFragmentScroller.this.fragments.get(position);
+                Log.i(DialogFragmentScroller.TAG,"getItem returns object "+fr);
+                return fr;
             }
 
             @Override
@@ -153,6 +156,8 @@ public class DialogFragmentScroller extends DialogFragment {
 
             @Override
             public void onPageSelected(int position) {
+                Log.i(DialogFragmentScroller.TAG,"onPageSelected at position +"+position);
+
                 DialogFragmentScroller.this.setRadioButtonOnPosition(position);
             }
 
