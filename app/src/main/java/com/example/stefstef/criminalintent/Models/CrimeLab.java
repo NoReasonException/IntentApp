@@ -19,7 +19,7 @@ public class CrimeLab {
     public static CrimeLab getInstance(Context c) {
         if(CrimeLab.ourInstance==null){
             CrimeLab.ourInstance=new CrimeLab(c.getApplicationContext());
-            CrimeLab.ourInstance.foolInitializer();
+            //CrimeLab.ourInstance.foolInitializer();
         }
         return ourInstance;
     }

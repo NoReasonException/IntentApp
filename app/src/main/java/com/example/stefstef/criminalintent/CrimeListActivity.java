@@ -1,5 +1,7 @@
 package com.example.stefstef.criminalintent;
 
+import android.support.v7.widget.Toolbar;
+
 /***
  * CrimeListActivity extends SingleFragmentActivity
  * Triggers a single Fragment , CrimeListFragment , witch is full of crimes! :P
@@ -19,6 +21,6 @@ public class CrimeListActivity extends SingleFragmentActivity {
     }
     @Override
     protected void initialization(){
-        //this.getActionBar().show();
+        this.setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
     }
 }

@@ -30,6 +30,7 @@ import android.util.Log;
                 CrimeLab.getInstance(this.getActivity()).getCrimes());
         this.setListAdapter(adapter);
 
+
     }
     /*This little hack will update the listView every time we return from
     * CrimeFragment*/
