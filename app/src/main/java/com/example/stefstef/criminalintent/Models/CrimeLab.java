@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -12,18 +15,31 @@ import java.util.UUID;
  */
 
 public class CrimeLab {
-    private static CrimeLab     ourInstance=null;
-    private ArrayList<Crime>    crimes  =new ArrayList<>();
-    private Context             context =null;
+    private static          CrimeLab                        ourInstance=null;
+    private                 ArrayList<Crime>                crimes  =new ArrayList<>();
+    private                 Context                         context =null;
+    private                 CriminalIntentJsonSerializer    serializer;
+    private static String                                   FILENAME="crimes.json";
     @NonNull
     public static CrimeLab getInstance(Context c) {
         if(CrimeLab.ourInstance==null){
             CrimeLab.ourInstance=new CrimeLab(c.getApplicationContext());
+            CrimeLab.ourInstance.context=c;
+            CrimeLab.ourInstance.serializer=new CriminalIntentJsonSerializer(
+                    ourInstance.context,FILENAME);
             //CrimeLab.ourInstance.foolInitializer();
         }
         return ourInstance;
     }
 
+    public boolean updateCrimes(){
+        try{
+            this.serializer.saveCrimes(this.getCrimes());
+        }catch (JSONException|IOException e){
+            return false;
+        }
+        return true;
+    }
     public ArrayList<Crime> getCrimes() {
         return crimes;
     }

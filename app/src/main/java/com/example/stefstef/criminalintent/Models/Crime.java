@@ -36,7 +36,6 @@ public class Crime {
 
     public Crime setDate(Date mDate) {
         this.mDate = mDate;
-        this.logMe();
         return this;
     }
 
@@ -46,7 +45,6 @@ public class Crime {
 
     public Crime setSolved(boolean misSolved) {
         this.misSolved = misSolved;
-        this.logMe();
         return this;
     }
 
@@ -61,7 +59,6 @@ public class Crime {
 
     public Crime setTitle(String mTitle) {
         this.mTitle = mTitle;
-        this.logMe();
         return this;
     }
 
