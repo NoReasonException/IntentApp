@@ -2,6 +2,7 @@ package com.example.stefstef.criminalintent;
 
 
 import com.example.stefstef.criminalintent.Misc.CrimeArrayAdapter;
+import com.example.stefstef.criminalintent.Misc.Utills;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.Models.Crime;
 
@@ -40,6 +41,7 @@ import android.util.Log;
             ArrayAdapter<Crime> adapter=new CrimeArrayAdapter(this.getActivity(),this.getActivity(),
                 CrimeLab.getInstance(this.getActivity()).getCrimes());
         this.setListAdapter(adapter);
+
         //this.registerForContextMenu(this.getListView());
 
     }
