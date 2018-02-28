@@ -56,6 +56,11 @@ import android.util.Log;
                 Utills.getActionBarSizeAttr(this.getActivity().getTheme())
         ),0,0);
     }
+
+    public void adaptListViewBelowActionBar(){
+        this.adaptListViewBelowActionBar(this.getView()
+        );
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,Bundle onSaveInstanceState){
         View v = super.onCreateView(inflater,viewGroup,onSaveInstanceState);
@@ -75,6 +80,7 @@ import android.util.Log;
                 public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
                     actionMode.getMenuInflater().inflate(R.menu.menu_contextual,menu);
                     CrimeListFragment.this.getActivity().findViewById(R.id.my_toolbar).setVisibility(View.INVISIBLE);
+                    CrimeListFragment.this.getView().setPadding(0,0,0,0);
                     return true;
                 }
 
@@ -104,6 +110,7 @@ import android.util.Log;
                 @Override
                 public void onDestroyActionMode(ActionMode actionMode) {
                     CrimeListFragment.this.getActivity().findViewById(R.id.my_toolbar).setVisibility(View.VISIBLE );
+                    CrimeListFragment.this.adaptListViewBelowActionBar();
 
                 }
             });
