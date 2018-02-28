@@ -29,6 +29,19 @@ public class Utills {
         if((retval=a.getString(0))==null)return 0;
         return Integer.valueOf(retval.substring(0,2));
     }
+    /***
+     * Converts a @param dp value to pixels , for use with View methods!
+     * @param metrics   The metrics of this phone (Taken by Activity's resources)
+     * @param dp        The dp's!
+     * @return          The pixel equilevant , casted to int
+     */
+    public static int convertDPtoPX(DisplayMetrics metrics, int dp){
+        return (int)TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                (float)dp,
+                metrics
+        );
+    }
 
 
 }
