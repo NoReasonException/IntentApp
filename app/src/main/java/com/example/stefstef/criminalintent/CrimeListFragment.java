@@ -45,9 +45,21 @@ import android.util.Log;
         //this.registerForContextMenu(this.getListView());
 
     }
+
+    /***
+     * Makes ListView Just below ActionBar
+     * @param v , the View :P
+     */
+    public void adaptListViewBelowActionBar(View v){
+        v.setPadding(0,Utills.convertDPtoPX(
+                this.getActivity().getResources().getDisplayMetrics(),
+                Utills.getActionBarSizeAttr(this.getActivity().getTheme())
+        ),0,0);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,Bundle onSaveInstanceState){
         View v = super.onCreateView(inflater,viewGroup,onSaveInstanceState);
+        this.adaptListViewBelowActionBar(v);
         ListView listView=(ListView)v.findViewById(android.R.id.list);
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.HONEYCOMB){
             this.registerForContextMenu(listView); //every view will react to long-press
