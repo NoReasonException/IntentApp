@@ -63,6 +63,8 @@ public class CrimeArrayAdapter extends ArrayAdapter<Crime> {
      */
     @NonNull
     public static View updateCrimeView(@NonNull View v,int position) throws ArrayIndexOutOfBoundsException{
+        if(v.findViewById(R.id.check)==null)return v;
+
         ((CheckBox)v.findViewById(R.id.check)).
                 setChecked(CrimeLab.getInstance(v.getContext()).getCrimes().get(position).isSolved());
         ((TextView)v.findViewById(R.id.ctitle)).

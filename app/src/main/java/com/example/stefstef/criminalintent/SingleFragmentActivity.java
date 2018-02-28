@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.stefstef.criminalintent.Models.Crime;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
@@ -60,4 +62,5 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         this.startActivity(i);
         return true;
     }
+
 }
