@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -55,6 +56,7 @@ public class CrimeArrayAdapter extends ArrayAdapter<Crime> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView==null){
             convertView=View.inflate(this.getContext(), R.layout.list_item_crime,null);
+
 
         }
         return CrimeArrayAdapter.updateCrimeView(convertView,position);

@@ -36,7 +36,17 @@ import android.widget.TextView;
 
     public class CrimeListFragment extends android.support.v4.app.ListFragment {
     public static java.lang.String TAG="CrimeListFragment_Log";
+    private View view ;
 
+
+    public void initalizeReferences(){
+        this.view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CrimeListFragment.this.getActivity().onOptionsItemSelected(null);
+            }
+        });
+    }
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -45,7 +55,6 @@ import android.widget.TextView;
                 CrimeLab.getInstance(this.getActivity()).getCrimes());
         this.setListAdapter(adapter);
 
-        //this.registerForContextMenu(this.getListView());
 
     }
 
@@ -71,9 +80,16 @@ import android.widget.TextView;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,Bundle onSaveInstanceState){
-        View v = super.onCreateView(inflater,viewGroup,onSaveInstanceState);
-        this.adaptListViewBelowActionBar(v);
-        ListView listView=(ListView)v.findViewById(android.R.id.list);
+
+        this.view= inflater.inflate(R.layout.crime_list_fragment,viewGroup,false);
+        this.initalizeReferences();
+        //this.adaptListViewBelowActionBar(this.view);
+
+
+
+
+
+        ListView listView=(ListView)this.view.findViewById(android.R.id.list);
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
             this.registerForContextMenu(listView); //every view will react to long-press
         }else {
@@ -130,10 +146,19 @@ import android.widget.TextView;
                 }
             });
         }
-        return v;
+        return this.view;
     }
+
+    /**
+     * Get the fragment's list view widget.
+     */
+    @Override
+    public ListView getListView() {
+        return this.view.findViewById(android.R.id.list);
+    }
+
     /*This little hack will update the listView every time we return from
-    * CrimeFragment*/
+        * CrimeFragment*/
     @Override
     public void onResume() {
         super.onResume();

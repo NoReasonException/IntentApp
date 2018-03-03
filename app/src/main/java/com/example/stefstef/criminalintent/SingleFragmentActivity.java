@@ -44,6 +44,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     protected void initialization(){
         this.setSupportActionBar((Toolbar)this.findViewById(R.id.my_toolbar));
+        this.getSupportActionBar().hide();
     }
 
     @Override
