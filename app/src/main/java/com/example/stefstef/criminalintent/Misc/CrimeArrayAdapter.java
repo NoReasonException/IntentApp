@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 /**
@@ -32,6 +34,8 @@ import java.util.Optional;
  */
 
 public class CrimeArrayAdapter extends ArrayAdapter<Crime> {
+    private static java.lang.String TAG = "CrimeArrayAdapter_LOG";
+
     public CrimeArrayAdapter(Activity parentActivity, @NonNull Context context, ArrayList<Crime> data) {
         super(context, 0,data);
     }
@@ -51,6 +55,7 @@ public class CrimeArrayAdapter extends ArrayAdapter<Crime> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView==null){
             convertView=View.inflate(this.getContext(), R.layout.list_item_crime,null);
+
         }
         return CrimeArrayAdapter.updateCrimeView(convertView,position);
     }
@@ -74,4 +79,5 @@ public class CrimeArrayAdapter extends ArrayAdapter<Crime> {
                         v.getContext()).getCrimes().get(position).getDate()));
         return v;
     }
+
 }

@@ -7,6 +7,8 @@ import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.Models.Crime;
 
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -16,13 +18,14 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.util.Log;
-
-
+import android.widget.TextView;
 
 
 /**
@@ -57,6 +60,11 @@ import android.util.Log;
         ),0,0);
     }
 
+    public void submitJob(Runnable runnable){
+        new Handler(Looper.getMainLooper()).post(runnable);
+
+
+    }
     public void adaptListViewBelowActionBar(){
         this.adaptListViewBelowActionBar(this.getView()
         );
@@ -73,6 +81,11 @@ import android.util.Log;
             listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
                 @Override
                 public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
+                    if(b){
+                        getListView().getChildAt(i).animate().translationXBy(50).setDuration(300).start();
+                        return;
+                    }
+                    getListView().getChildAt(i).animate().translationXBy(-50).setDuration(300).start();
 
                 }
 
@@ -91,6 +104,7 @@ import android.util.Log;
 
                 @Override
                 public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+
                     switch(menuItem.getItemId()){
                         case R.id.deleteCrime:
                             CrimeArrayAdapter adapter = (CrimeArrayAdapter) getListAdapter();
@@ -98,6 +112,7 @@ import android.util.Log;
                             for (int i= adapter.getCount()-1;i>=0; i--) {
                                 if(getListView().isItemChecked(i)){
                                     crimeLab.getCrimes().remove(adapter.getItem(i));
+
                                 }
                             }
                             actionMode.finish();

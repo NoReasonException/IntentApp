@@ -4,4 +4,5 @@
     <color name="list_background_checked">#b74f51</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="deleteBack">#FF0000</color>
 </resources>
