@@ -19,8 +19,5 @@ public class CrimeListActivity extends SingleFragmentActivity {
     protected android.support.v4.app.Fragment createFragment() {
         return new CrimeListFragment();
     }
-    @Override
-    protected void initialization(){
-        this.setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
-    }
+
 }
