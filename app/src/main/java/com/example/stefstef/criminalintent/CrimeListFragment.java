@@ -66,7 +66,7 @@ import android.util.Log;
         View v = super.onCreateView(inflater,viewGroup,onSaveInstanceState);
         this.adaptListViewBelowActionBar(v);
         ListView listView=(ListView)v.findViewById(android.R.id.list);
-        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.HONEYCOMB){
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
             this.registerForContextMenu(listView); //every view will react to long-press
         }else {
             listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);

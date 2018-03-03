@@ -117,15 +117,16 @@ public class DialogFragmentScroller extends DialogFragment {
         this.dialogView = infl.inflate(R.layout.datetime_config,viewGroup);
         this.initializeReferences(dialogView);
         this.initializeRadioButtons();
-
-        //this.pager=new ViewPager(this.getActivity());
-        this.pager.setId(R.id.pickerViewPager);
         final FragmentManager fm = this.getChildFragmentManager();
         this.pager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public Fragment getItem(int position) {
                 if(DialogFragmentScroller.this.fragments==null){
                     DialogFragmentScroller.this.fragments=new ArrayList<Fragment>();
+                    /*For every class , make an instance , and
+                    * use .getInstance to load the parameters via Bundle
+                    *
+                    * */
                     for (final Class<? extends CrimePicker> f:DialogFragmentScroller.this.fragmentsClasses){
                         try{
                             DialogFragmentScroller.this.fragments.add(
