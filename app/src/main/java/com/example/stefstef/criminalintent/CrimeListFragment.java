@@ -18,14 +18,13 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.util.Log;
-import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -39,7 +38,7 @@ import android.widget.TextView;
     private View view ;
 
 
-    public void initalizeReferences(){
+    public void initializeListeners(){
         this.view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +81,7 @@ import android.widget.TextView;
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,Bundle onSaveInstanceState){
 
         this.view= inflater.inflate(R.layout.crime_list_fragment,viewGroup,false);
-        this.initalizeReferences();
+        this.initializeListeners();
         //this.adaptListViewBelowActionBar(this.view);
 
 
@@ -97,11 +96,12 @@ import android.widget.TextView;
             listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
                 @Override
                 public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
+
                     if(b){
                         getListView().getChildAt(i).animate().translationXBy(50).setDuration(300).start();
                         return;
                     }
-                    getListView().getChildAt(i).animate().translationXBy(-50).setDuration(300).start();
+                    getListView().getChildAt(i).animate().translationX(0).setDuration(300).start();
 
                 }
 
@@ -110,6 +110,7 @@ import android.widget.TextView;
                     actionMode.getMenuInflater().inflate(R.menu.menu_contextual,menu);
                     CrimeListFragment.this.getActivity().findViewById(R.id.my_toolbar).setVisibility(View.INVISIBLE);
                     CrimeListFragment.this.getView().setPadding(0,0,0,0);
+
                     return true;
                 }
 
@@ -117,20 +118,27 @@ import android.widget.TextView;
                 public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
                     return false;
                 }
-
+                private void restoreViews(){
+                    for (int i = 0; i < CrimeListFragment.this.getListView().getCount(); i++) {
+                        CrimeListFragment.this.getListView().getChildAt(i).animate().translationX(0f).start();
+                    }
+                }
                 @Override
                 public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
 
                     switch(menuItem.getItemId()){
                         case R.id.deleteCrime:
+                            Log.i(CrimeListFragment.TAG,"DELETE PUSHED");
+
                             CrimeArrayAdapter adapter = (CrimeArrayAdapter) getListAdapter();
                             CrimeLab crimeLab=CrimeLab.getInstance(getActivity());
-                            for (int i= adapter.getCount()-1;i>=0; i--) {
-                                if(getListView().isItemChecked(i)){
-                                    crimeLab.getCrimes().remove(adapter.getItem(i));
+                                for (int i= adapter.getCount()-1;i>=0; i--) {
+                                    if (getListView().isItemChecked(i)) {
+                                        Log.i(CrimeListFragment.TAG, String.format("Crime at position %d deleted", i));
+                                        crimeLab.getCrimes().remove(adapter.getItem(i));
 
+                                    }
                                 }
-                            }
                             actionMode.finish();
                             adapter.notifyDataSetChanged();
                             return true;
@@ -138,8 +146,10 @@ import android.widget.TextView;
                             return false;
                     }
                 }
+
                 @Override
                 public void onDestroyActionMode(ActionMode actionMode) {
+                    restoreViews();
                     CrimeListFragment.this.getActivity().findViewById(R.id.my_toolbar).setVisibility(View.VISIBLE );
                     CrimeListFragment.this.adaptListViewBelowActionBar();
 
