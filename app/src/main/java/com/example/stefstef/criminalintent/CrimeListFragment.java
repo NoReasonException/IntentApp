@@ -9,6 +9,7 @@ import com.example.stefstef.criminalintent.Models.Crime;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -128,17 +129,34 @@ import java.util.ArrayList;
 
                     switch(menuItem.getItemId()){
                         case R.id.deleteCrime:
-                            Log.i(CrimeListFragment.TAG,"DELETE PUSHED");
+                            int j=0;
+                            ArrayList<Crime>deletedCrimes=new ArrayList<>();
 
-                            CrimeArrayAdapter adapter = (CrimeArrayAdapter) getListAdapter();
+                            Log.i(CrimeListFragment.TAG,"DELETE PUSHED");
+                            final CrimeArrayAdapter adapter = (CrimeArrayAdapter) getListAdapter();
                             CrimeLab crimeLab=CrimeLab.getInstance(getActivity());
                                 for (int i= adapter.getCount()-1;i>=0; i--) {
                                     if (getListView().isItemChecked(i)) {
-                                        Log.i(CrimeListFragment.TAG, String.format("Crime at position %d deleted", i));
+                                        j+=1;
+                                        deletedCrimes.add(adapter.getItem(i));
                                         crimeLab.getCrimes().remove(adapter.getItem(i));
 
                                     }
                                 }
+
+                            Snackbar.make(CrimeListFragment.this.getView(), String.format("You delete %d %s!", j,j>1?"crimes":"crime"),Snackbar.LENGTH_SHORT).setAction("Undo", new View.OnClickListener() {
+                                ArrayList<Crime>restoreCrimes=null;
+                                @Override
+                                public void onClick(View view) {
+                                    CrimeLab.getInstance(getContext()).getCrimes().addAll(this.restoreCrimes);
+                                    adapter.notifyDataSetChanged();
+                                }
+                                public View.OnClickListener init(ArrayList<Crime> undo){
+                                    this.restoreCrimes=undo;
+                                    return this;
+                                }
+
+                            }.init(deletedCrimes)).show();
                             actionMode.finish();
                             adapter.notifyDataSetChanged();
                             return true;
