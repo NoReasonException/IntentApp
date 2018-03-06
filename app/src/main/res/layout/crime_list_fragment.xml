@@ -7,11 +7,17 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Toolbar
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/new_action_bar"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title">
+            <Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/new_action_bar"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
+
 
 
     </android.support.design.widget.AppBarLayout>

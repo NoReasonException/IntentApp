@@ -71,17 +71,12 @@ import java.util.ArrayList;
                 Utills.getActionBarSizeAttr(this.getActivity().getTheme())
         ),0,0);
     }
-    @Deprecated
-    public void adaptListViewBelowActionBar(){
-        this.adaptListViewBelowActionBar(this.getView());
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,Bundle onSaveInstanceState){
 
         this.view= inflater.inflate(R.layout.crime_list_fragment,viewGroup,false);
         this.getActivity().setActionBar((android.widget.Toolbar) this.view.findViewById(R.id.new_action_bar));
         this.initializeListeners();
-        //this.adaptListViewBelowActionBar(this.view);
 
 
 
@@ -107,9 +102,6 @@ import java.util.ArrayList;
                 @Override
                 public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
                     actionMode.getMenuInflater().inflate(R.menu.menu_contextual,menu);
-                    CrimeListFragment.this.getActivity().findViewById(R.id.my_toolbar).setVisibility(View.INVISIBLE);
-                    CrimeListFragment.this.getView().setPadding(0,0,0,0);
-
                     return true;
                 }
 
@@ -166,8 +158,6 @@ import java.util.ArrayList;
                 @Override
                 public void onDestroyActionMode(ActionMode actionMode) {
                     restoreViews();
-                    CrimeListFragment.this.getActivity().findViewById(R.id.my_toolbar).setVisibility(View.VISIBLE );
-                    CrimeListFragment.this.adaptListViewBelowActionBar();
 
                 }
             });

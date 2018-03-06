@@ -42,11 +42,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     protected abstract android.support.v4.app.Fragment createFragment();
 
-    protected void initialization(){
-        this.setSupportActionBar((Toolbar)this.findViewById(R.id.my_toolbar));
-        this.getSupportActionBar().hide();
-    }
-
+    protected void initialization(){}
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.getMenuInflater().inflate(R.menu.main_actionbar,menu);
