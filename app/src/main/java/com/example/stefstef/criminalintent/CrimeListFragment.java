@@ -5,11 +5,13 @@ import com.example.stefstef.criminalintent.Misc.CrimeArrayAdapter;
 import com.example.stefstef.criminalintent.Misc.Utills;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.Models.Crime;
+import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -24,7 +26,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.util.Log;
-
 import java.util.ArrayList;
 
 
@@ -57,8 +58,10 @@ import java.util.ArrayList;
 
 
     }
-
+    @Deprecated()
     /***
+     * @Deprecated with the new ActionBar , there is no need anymore to
+     * move manually the view below the listView()!
      * Makes ListView Just below ActionBar
      * @param v , the View :P
      */
@@ -68,20 +71,15 @@ import java.util.ArrayList;
                 Utills.getActionBarSizeAttr(this.getActivity().getTheme())
         ),0,0);
     }
-
-    public void submitJob(Runnable runnable){
-        new Handler(Looper.getMainLooper()).post(runnable);
-
-
-    }
+    @Deprecated
     public void adaptListViewBelowActionBar(){
-        this.adaptListViewBelowActionBar(this.getView()
-        );
+        this.adaptListViewBelowActionBar(this.getView());
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,Bundle onSaveInstanceState){
 
         this.view= inflater.inflate(R.layout.crime_list_fragment,viewGroup,false);
+        this.getActivity().setActionBar((android.widget.Toolbar) this.view.findViewById(R.id.new_action_bar));
         this.initializeListeners();
         //this.adaptListViewBelowActionBar(this.view);
 
@@ -143,7 +141,7 @@ import java.util.ArrayList;
 
                                     }
                                 }
-
+    
                             Snackbar.make(CrimeListFragment.this.getView(), String.format("You delete %d %s!", j,j>1?"crimes":"crime"),Snackbar.LENGTH_SHORT).setAction("Undo", new View.OnClickListener() {
                                 ArrayList<Crime>restoreCrimes=null;
                                 @Override
