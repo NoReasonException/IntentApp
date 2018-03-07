@@ -65,28 +65,10 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
         holder.v.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                ((AppCompatActivity)view.getContext()).startSupportActionMode(new ActionMode.Callback() {
-                    @Override
-                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                        mode.getMenuInflater().inflate(R.menu.menu_contextual,menu);
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                        return false;
-                    }
-
-                    @Override
-                    public void onDestroyActionMode(ActionMode mode) {
-
-                    }
-                });
+                ((AppCompatActivity)view.getContext()).startSupportActionMode(
+                        (ActionMode.Callback)
+                        CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual)
+                );
                 return true;
             }
         });
