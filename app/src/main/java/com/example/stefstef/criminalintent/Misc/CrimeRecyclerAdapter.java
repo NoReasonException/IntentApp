@@ -1,26 +1,21 @@
 package com.example.stefstef.criminalintent.Misc;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.stefstef.criminalintent.CrimeListFragment;
 import com.example.stefstef.criminalintent.Models.Crime;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.R;
 
 import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by stefstef on 7/3/2018.
@@ -28,7 +23,7 @@ import java.util.List;
 
 public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdapter.CrimeViewHolder> {
 
-    public Context context;
+    public Activity act;
     public static class CrimeViewHolder extends RecyclerView.ViewHolder{
         View v;
         public CrimeViewHolder(View itemView) {
@@ -37,8 +32,8 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
         }
     }
 
-    public CrimeRecyclerAdapter(Context context) {
-        this.context = context;
+    public CrimeRecyclerAdapter(Activity act) {
+        this.act = act;
     }
 
     @Override
@@ -50,7 +45,7 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
     }
     @Override
     public void onBindViewHolder(CrimeViewHolder holder, int position) {
-        Crime m=CrimeLab.getInstance(CrimeRecyclerAdapter.this.context).getCrimes().get(position);
+        Crime m=CrimeLab.getInstance(CrimeRecyclerAdapter.this.act).getCrimes().get(position);
         ((TextView)holder.v.findViewById(R.id.ctitle)).setText(m.getTitle());
         ((TextView)holder.v.findViewById(R.id.cdate)).setText(DateFormat.getDateInstance().format(
             m.getDate()));
@@ -67,7 +62,7 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
             public boolean onLongClick(View view) {
                 ((AppCompatActivity)view.getContext()).startSupportActionMode(
                         (ActionMode.Callback)
-                        CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual)
+                        CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual,act)
                 );
                 return true;
             }
@@ -76,7 +71,7 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
 
     @Override
     public int getItemCount(){
-        return CrimeLab.getInstance(this.context).getCrimes().size();
+        return CrimeLab.getInstance(this.act).getCrimes().size();
     }
 }
 
