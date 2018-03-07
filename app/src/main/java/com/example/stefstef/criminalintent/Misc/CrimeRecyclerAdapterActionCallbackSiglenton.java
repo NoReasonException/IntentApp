@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.stefstef.criminalintent.CrimeListFragment;
+import com.example.stefstef.criminalintent.Models.Crime;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.R;
 
@@ -91,7 +92,18 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     public boolean onActionItemClicked(android.support.v7.view.ActionMode mode, MenuItem item) {
         switch(item.getItemId()){
             case R.id.deleteCrime:
-                Snackbar.make(recyclerView,"Ok!",Snackbar.LENGTH_SHORT).show();
+                ArrayList<Crime> deletedCrimes=new ArrayList<>();
+                for (Integer i :this.selectedIndexes) {
+                    deletedCrimes.add(CrimeLab.getInstance(this.act).getCrimes().get(i));
+                }
+                for (Crime cr:deletedCrimes) {
+                    CrimeLab.getInstance(this.act).getCrimes().remove(cr);
+                }
+                Snackbar.make(recyclerView, String.format("You deleted %d %s",
+                        this.selectedIndexes.size(),
+                        this.selectedIndexes.size()>1?"crimes":"crime"),Snackbar.LENGTH_SHORT).show();
+
+                this.recyclerView.getAdapter().notifyDataSetChanged();
                 mode.finish();
                 return true;
             default:

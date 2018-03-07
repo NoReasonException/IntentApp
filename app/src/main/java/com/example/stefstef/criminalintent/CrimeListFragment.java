@@ -64,12 +64,13 @@ import android.view.View;
     @Override
     public void onResume() {
         super.onResume();
-
+        this.recyclerView.getAdapter().notifyDataSetChanged();
         CrimeLab.getInstance(this.getActivity()).updateCrimes();
     }
     @Override
     public void onPause() {
         super.onPause();
+        this.recyclerView.getAdapter().notifyDataSetChanged();
         CrimeLab.getInstance(this.getActivity()).updateCrimes();
     }
 }
