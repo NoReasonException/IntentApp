@@ -21,8 +21,10 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     private static String TAG="CrimeRecyclerAdapterActionCallbackSiglenton_LOG";
     private ArrayList<Integer>  selectedIndexes;
     private RecyclerView recyclerView;
+    private boolean allowMultiChoice;
     private int menuLayoutID=-1;
     private Activity act;
+
 
 
 
@@ -47,12 +49,15 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
         return instance;
     }
     public void selectIndexAt(Integer index){
-        this.selectedIndexes.add(index);
-        Log.i(TAG,"Item "+index+" Selected");
+        if(this.allowMultiChoice){
+            this.selectedIndexes.add(index);
+            Log.i(TAG,"Item "+index+" Selected");
+        }
     }
 
     @Override
     public boolean onCreateActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
+        this.allowMultiChoice=true;
         mode.getMenuInflater().inflate(this.menuLayoutID,menu);
         this.act.getActionBar().hide();
         return true;
@@ -74,6 +79,7 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     }
     @Override
     public void onDestroyActionMode(android.support.v7.view.ActionMode mode) {
+        this.allowMultiChoice=false;
         this.act.getActionBar().show();
 
     }

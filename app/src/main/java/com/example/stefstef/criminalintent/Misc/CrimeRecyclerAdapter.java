@@ -69,6 +69,12 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
                 return true;
             }
         });
+        holder.v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callbackSiglenton.selectIndexAt(recyclerView.getChildAdapterPosition(view));
+            }
+        });
     }
 
     @Override
