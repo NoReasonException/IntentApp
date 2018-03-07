@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.stefstef.criminalintent.CrimeListFragment;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.R;
 
@@ -48,13 +50,32 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
         }
         return instance;
     }
-    public void selectIndexAt(Integer index){
+    public boolean selectIndexAt(Integer index){
         if(this.allowMultiChoice){
-            this.selectedIndexes.add(index);
-            Log.i(TAG,"Item "+index+" Selected");
+            if(this.selectedIndexes.contains(index)){ //already selected , deselect
+                this.onItemCheckedStateChanged(index,false);
+                this.selectedIndexes.remove(index);
+            }
+            else{ //non selected! add to selected arrayList
+                this.onItemCheckedStateChanged(index,true);
+                this.selectedIndexes.add(index);
+            }
+            return true; // multichoice is activated
         }
+        return false; //multichoice is not activated , is a simple view onClick , handle it
     }
 
+
+
+    public void onItemCheckedStateChanged(int i, boolean b) {
+        if(b)
+            this.recyclerView.getChildAt(i).animate().translationXBy(50f).setDuration(300).start();
+        else
+            this.recyclerView.getChildAt(i).animate().translationX(0f).setDuration(300).start();
+
+
+        Log.i(TAG,"select "+i+" state "+b);
+    }
     @Override
     public boolean onCreateActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
         this.allowMultiChoice=true;
@@ -79,9 +100,20 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     }
     @Override
     public void onDestroyActionMode(android.support.v7.view.ActionMode mode) {
+        this.selectedIndexes.clear();
+        this.restoreViews();
         this.allowMultiChoice=false;
         this.act.getActionBar().show();
 
+    }
+    private void restoreViews(){
+        View tmp;
+        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            if((tmp=recyclerView.getChildAt(i))!=null) { // if is visible
+                tmp
+                        .animate().translationX(0f).setDuration(300).start();
+            }
+        }
     }
 
 }
