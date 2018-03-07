@@ -1,30 +1,53 @@
 package com.example.stefstef.criminalintent.Misc;
 
 import android.app.Activity;
-import android.content.Context;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-/**
+import com.example.stefstef.criminalintent.Models.CrimeLab;
+import com.example.stefstef.criminalintent.R;
+
+import java.util.ArrayList;
+/*
  * Created by stefstef on 7/3/2018.
  */
 
 public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.support.v7.view.ActionMode.Callback {
+    private static CrimeRecyclerAdapterActionCallbackSiglenton instance=null;
+    private ArrayList<Integer>  selectedIndexes;
+    private RecyclerView recyclerView;
     private int menuLayoutID=-1;
     private Activity act;
-    private static CrimeRecyclerAdapterActionCallbackSiglenton instance=null;
+
+
+
     private CrimeRecyclerAdapterActionCallbackSiglenton(int menuLayoutID,
-                                                        Activity act){
+                                                        Activity act,
+                                                        RecyclerView recyclerView){
         this.menuLayoutID=menuLayoutID;
+        this.recyclerView=recyclerView;
         this.act =act;
+
+
+        this.selectedIndexes=new ArrayList<>();
+        this.selectedIndexes.ensureCapacity(CrimeLab.getInstance(this.act).getCrimes().size()/2);
     }
+
     public static CrimeRecyclerAdapterActionCallbackSiglenton getInstance(int menuLayoutID,
-                                                                          Activity act){
+                                                                          Activity act,
+                                                                          RecyclerView recyclerView){
         if(instance==null){
-            instance=new CrimeRecyclerAdapterActionCallbackSiglenton(menuLayoutID,act);
+            instance=new CrimeRecyclerAdapterActionCallbackSiglenton(menuLayoutID,act,recyclerView);
         }
         return instance;
     }
+    public void selectIndexAt(Integer index){
+        this.selectedIndexes.add(index);
+    }
+
     @Override
     public boolean onCreateActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(this.menuLayoutID,menu);
@@ -37,11 +60,18 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     }
     @Override
     public boolean onActionItemClicked(android.support.v7.view.ActionMode mode, MenuItem item) {
-        return false;
+        switch(item.getItemId()){
+            case R.id.deleteCrime:
+                Snackbar.make(recyclerView,"Ok!",Snackbar.LENGTH_SHORT).show();
+                return true;
+            default:
+                return false;
+        }
     }
     @Override
     public void onDestroyActionMode(android.support.v7.view.ActionMode mode) {
         this.act.getActionBar().show();
 
     }
+
 }

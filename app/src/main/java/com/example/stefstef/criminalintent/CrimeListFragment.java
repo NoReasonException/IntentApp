@@ -71,7 +71,7 @@ import java.util.ArrayList;
         this.initializeReferences();
 
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL,false));
-        this.recyclerView.setAdapter(new CrimeRecyclerAdapter(getActivity()));
+        this.recyclerView.setAdapter(new CrimeRecyclerAdapter(getActivity(),this.recyclerView));
 
         this.getActivity().setActionBar((android.widget.Toolbar) this.view.findViewById(R.id.new_action_bar));
         this.initializeListeners();

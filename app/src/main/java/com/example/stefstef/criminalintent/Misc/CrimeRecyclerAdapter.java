@@ -23,6 +23,7 @@ import java.text.DateFormat;
 
 public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdapter.CrimeViewHolder> {
 
+    public RecyclerView recyclerView;
     public Activity act;
     public static class CrimeViewHolder extends RecyclerView.ViewHolder{
         View v;
@@ -32,8 +33,10 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
         }
     }
 
-    public CrimeRecyclerAdapter(Activity act) {
+    public CrimeRecyclerAdapter(Activity act,RecyclerView recyclerView) {
+        this.recyclerView=recyclerView;
         this.act = act;
+
     }
 
     @Override
@@ -61,8 +64,7 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
             @Override
             public boolean onLongClick(View view) {
                 ((AppCompatActivity)view.getContext()).startSupportActionMode(
-                        (ActionMode.Callback)
-                        CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual,act)
+                        CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual,act,recyclerView)
                 );
                 return true;
             }
