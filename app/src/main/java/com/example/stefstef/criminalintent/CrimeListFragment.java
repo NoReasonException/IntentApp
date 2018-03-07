@@ -1,15 +1,21 @@
 package com.example.stefstef.criminalintent;
 
 import com.example.stefstef.criminalintent.Misc.CrimeRecyclerAdapter;
+import com.example.stefstef.criminalintent.Models.Crime;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.os.Bundle;
 import android.view.View;
+
+import java.util.Date;
+import java.util.UUID;
 
 
 /**
@@ -52,7 +58,7 @@ import android.view.View;
         this.initializeReferences();
 
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
-        this.recyclerView.setAdapter(new CrimeRecyclerAdapter(getActivity(), this.recyclerView));
+        this.recyclerView.setAdapter(new CrimeRecyclerAdapter(this, this.recyclerView));
 
         this.getActivity().setActionBar((android.widget.Toolbar) this.view.findViewById(R.id.new_action_bar));
         this.initializeListeners();
@@ -72,5 +78,12 @@ import android.view.View;
         super.onPause();
         this.recyclerView.getAdapter().notifyDataSetChanged();
         CrimeLab.getInstance(this.getActivity()).updateCrimes();
+    }
+
+    public void JumpToCrimePagerFragment(UUID crID){
+        Intent i = new Intent(this.getActivity(),CrimePagerActivity.class);
+        Log.i(CrimeListFragment.TAG,"CrimePagerActivity initialization ");
+        i.putExtra(CrimeFragment.EXTRA_CRIME_UUID, crID);
+        this.startActivity(i);
     }
 }

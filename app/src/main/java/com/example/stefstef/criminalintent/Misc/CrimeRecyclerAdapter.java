@@ -1,14 +1,17 @@
 package com.example.stefstef.criminalintent.Misc;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.stefstef.criminalintent.CrimeListFragment;
 import com.example.stefstef.criminalintent.Models.Crime;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.R;
@@ -20,9 +23,13 @@ import java.text.DateFormat;
  */
 
 public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdapter.CrimeViewHolder> {
+    private static String TAG="CrimeRecyclerAdapterActionCallbackSiglenton_LOG";
+
     private CrimeRecyclerAdapterActionCallbackSiglenton callbackSiglenton;
+
     private RecyclerView recyclerView;
     private Activity act;
+    private android.support.v4.app.Fragment fr;
     public static class CrimeViewHolder extends RecyclerView.ViewHolder{
         View v;
         public CrimeViewHolder(View itemView) {
@@ -31,10 +38,11 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
         }
     }
 
-    public CrimeRecyclerAdapter(Activity act,RecyclerView recyclerView) {
-        this.callbackSiglenton=CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual,act,recyclerView);
+    public CrimeRecyclerAdapter(android.support.v4.app.Fragment fr, RecyclerView recyclerView) {
+        this.callbackSiglenton=CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual,fr.getActivity(),recyclerView);
         this.recyclerView=recyclerView;
-        this.act = act;
+        this.act = fr.getActivity();
+        this.fr=fr;
 
     }
 
@@ -70,7 +78,14 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
         holder.v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callbackSiglenton.selectIndexAt(recyclerView.getChildAdapterPosition(view));
+                if(!callbackSiglenton.selectIndexAt(recyclerView.getChildAdapterPosition(view))){
+                    Log.i(CrimeRecyclerAdapter.TAG,  "Jump to CrimeFragment!");
+                    ((CrimeListFragment)fr).JumpToCrimePagerFragment(
+                            ((Crime)CrimeLab.getInstance(act).getCrimes().get(
+                                    recyclerView.getChildAdapterPosition(view)
+                            )).getId()
+                    );
+                }
             }
         });
     }
