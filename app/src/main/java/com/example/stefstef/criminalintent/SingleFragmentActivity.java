@@ -45,15 +45,4 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Crime cr = new Crime().setSolved(false).setDate(new Date()).setTitle("NEW CRIME!");
-        CrimeLab.getInstance(this).getCrimes().add(cr);
-        Intent i = new Intent(this,CrimePagerActivity.class);
-        Log.i(CrimeListFragment.TAG,"CrimePagerActivity initialization ");
-        i.putExtra(CrimeFragment.EXTRA_CRIME_UUID, cr.getId());
-        this.startActivity(i);
-        return true;
-    }
-
 }

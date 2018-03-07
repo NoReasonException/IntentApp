@@ -1,7 +1,6 @@
 package com.example.stefstef.criminalintent.Misc;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -97,7 +96,7 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
             public void onClick(View view) {
                 if(!callbackSiglenton.selectIndexAt(recyclerView.getChildAdapterPosition(view))){
                     Log.i(CrimeRecyclerAdapter.TAG,  "Jump to CrimeFragment!");
-                    ((CrimeListFragment)fr).JumpToCrimePagerFragment(
+                    ((CrimeListFragment)fr).JumpToCrimePagerActivity(
                             ((Crime)CrimeLab.getInstance(act).getCrimes().get(
                                     recyclerView.getChildAdapterPosition(view)
                             )).getId()

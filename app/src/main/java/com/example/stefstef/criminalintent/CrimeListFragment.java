@@ -31,14 +31,29 @@ import java.util.UUID;
     private RecyclerView recyclerView;
 
 
+    /***
+     * initalize Listeners
+     * initialize liseners on View (Currently only fab icon :P )
+     * @version 0.0.2 Refactored to use .JumpToCrimePagerActivity(UUID cid)
+     */
     public void initializeListeners(){
         this.view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CrimeListFragment.this.getActivity().onOptionsItemSelected(null);
+                Crime c;
+                CrimeLab.getInstance(CrimeListFragment.this.getActivity())
+                        .getCrimes().add(
+                                c=new Crime().setSolved(false).setDate(new Date()).setTitle("NEW CRIME!")
+                );
+                CrimeListFragment.this.JumpToCrimePagerActivity(c.getId());
             }
         });
     }
+
+    /***
+     * Initialize References of this class after inflation of main this.view member!
+     * @note : Always call after inflation of this.view!
+     */
     private void initializeReferences(){
         this.recyclerView=this.view.findViewById(R.id.recycler_list_view);
     }
@@ -46,20 +61,17 @@ import java.util.UUID;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         this.getActivity().setTitle(R.string.crime_title);
-
-
-
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,Bundle onSaveInstanceState) {
 
         this.view = inflater.inflate(R.layout.crime_list_fragment, viewGroup, false);
         this.initializeReferences();
-
+        //initialization of recyclerView
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
         this.recyclerView.setAdapter(new CrimeRecyclerAdapter(this, this.recyclerView));
 
+        //ActionBarInitialization
         this.getActivity().setActionBar((android.widget.Toolbar) this.view.findViewById(R.id.new_action_bar));
         this.initializeListeners();
         return this.view;
@@ -70,8 +82,8 @@ import java.util.UUID;
     @Override
     public void onResume() {
         super.onResume();
-        this.recyclerView.getAdapter().notifyDataSetChanged();
-        CrimeLab.getInstance(this.getActivity()).updateCrimes();
+        this.recyclerView.getAdapter().notifyDataSetChanged();  // notify if data is changed
+        CrimeLab.getInstance(this.getActivity()).updateCrimes();//save crimes!
     }
     @Override
     public void onPause() {
@@ -80,7 +92,11 @@ import java.util.UUID;
         CrimeLab.getInstance(this.getActivity()).updateCrimes();
     }
 
-    public void JumpToCrimePagerFragment(UUID crID){
+    /***
+     * Utill method to jump in CrimePagerActivity
+     * @param crID , the CrimeUUID
+     */
+    public void JumpToCrimePagerActivity(UUID crID){
         Intent i = new Intent(this.getActivity(),CrimePagerActivity.class);
         Log.i(CrimeListFragment.TAG,"CrimePagerActivity initialization ");
         i.putExtra(CrimeFragment.EXTRA_CRIME_UUID, crID);
