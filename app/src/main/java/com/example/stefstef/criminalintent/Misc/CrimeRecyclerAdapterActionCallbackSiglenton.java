@@ -110,8 +110,7 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
         View tmp;
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             if((tmp=recyclerView.getChildAt(i))!=null) { // if is visible
-                tmp
-                        .animate().translationX(0f).setDuration(300).start();
+                tmp.animate().translationX(0f).setDuration(300).start();
             }
         }
     }
