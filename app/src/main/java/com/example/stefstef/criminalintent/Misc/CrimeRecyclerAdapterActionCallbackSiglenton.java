@@ -101,7 +101,24 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
                 }
                 Snackbar.make(recyclerView, String.format("You deleted %d %s",
                         this.selectedIndexes.size(),
-                        this.selectedIndexes.size()>1?"crimes":"crime"),Snackbar.LENGTH_SHORT).show();
+                        this.selectedIndexes.size()>1?"crimes":"crime"),Snackbar.LENGTH_SHORT).setAction(
+                        "Undo", new View.OnClickListener() {
+                            ArrayList<Crime> restoreCrimes;
+                            @Override
+                            public void onClick(View view) {
+                                for (Crime crime:this.restoreCrimes) {
+                                    CrimeLab.getInstance(act).getCrimes().add(crime);
+                                }
+                                recyclerView.getAdapter().notifyDataSetChanged();
+                            }
+                            public View.OnClickListener init(ArrayList<Crime> cr){
+                                this.restoreCrimes=cr;
+                                return this;
+                            }
+
+                        }.init(deletedCrimes)
+                ).show();
+
 
                 this.recyclerView.getAdapter().notifyDataSetChanged();
                 mode.finish();
