@@ -3,18 +3,13 @@ package com.example.stefstef.criminalintent;
 
 import com.example.stefstef.criminalintent.Misc.CrimeArrayAdapter;
 import com.example.stefstef.criminalintent.Misc.CrimeRecyclerAdapter;
-import com.example.stefstef.criminalintent.Misc.Utills;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.Models.Crime;
-import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -35,6 +30,7 @@ import java.util.ArrayList;
 
 /**
  * CrimeListFragment
+ * @Note : on refactor stage
  * Contains all the crimes , starts first , triggered by CrimeListActivity
  * (At first) and CrimePagerActivity in chapter 11
  */
