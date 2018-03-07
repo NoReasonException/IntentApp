@@ -2,6 +2,7 @@ package com.example.stefstef.criminalintent;
 
 
 import com.example.stefstef.criminalintent.Misc.CrimeArrayAdapter;
+import com.example.stefstef.criminalintent.Misc.CrimeRecyclerAdapter;
 import com.example.stefstef.criminalintent.Misc.Utills;
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 import com.example.stefstef.criminalintent.Models.Crime;
@@ -11,6 +12,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -21,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +42,7 @@ import java.util.ArrayList;
     public class CrimeListFragment extends android.support.v4.app.ListFragment {
     public static java.lang.String TAG="CrimeListFragment_Log";
     private View view ;
+    private RecyclerView recyclerView;
 
 
     public void initializeListeners(){
@@ -48,6 +53,9 @@ import java.util.ArrayList;
             }
         });
     }
+    private void initializeReferences(){
+        this.recyclerView=this.view.findViewById(R.id.recycler_list_view);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -57,24 +65,18 @@ import java.util.ArrayList;
         this.setListAdapter(adapter);
 
 
-    }
-    @Deprecated()
-    /***
-     * @Deprecated with the new ActionBar , there is no need anymore to
-     * move manually the view below the listView()!
-     * Makes ListView Just below ActionBar
-     * @param v , the View :P
-     */
-    public void adaptListViewBelowActionBar(View v){
-        v.setPadding(0,Utills.convertDPtoPX(
-                this.getActivity().getResources().getDisplayMetrics(),
-                Utills.getActionBarSizeAttr(this.getActivity().getTheme())
-        ),0,0);
+
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,Bundle onSaveInstanceState){
 
         this.view= inflater.inflate(R.layout.crime_list_fragment,viewGroup,false);
+        this.initializeReferences();
+
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL,false));
+        this.recyclerView.setAdapter(new CrimeRecyclerAdapter(getContext()));
+
         this.getActivity().setActionBar((android.widget.Toolbar) this.view.findViewById(R.id.new_action_bar));
         this.initializeListeners();
 
@@ -110,7 +112,10 @@ import java.util.ArrayList;
                     return false;
                 }
                 private void restoreViews(){
-                    for (int i = 0; i < CrimeListFragment.this.getListView().getCount(); i++) {
+
+                    for (int i = 0; i < getListView().getLastVisiblePosition()-getListView().getFirstVisiblePosition(); i++) {
+                        Log.i(TAG,"restore "+i+CrimeListFragment.this.getListView().getChildAt(i));
+
                         CrimeListFragment.this.getListView().getChildAt(i).animate().translationX(0f).start();
                     }
                 }
