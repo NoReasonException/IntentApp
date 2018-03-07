@@ -22,9 +22,9 @@ import java.text.DateFormat;
  */
 
 public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdapter.CrimeViewHolder> {
-
-    public RecyclerView recyclerView;
-    public Activity act;
+    private CrimeRecyclerAdapterActionCallbackSiglenton callbackSiglenton;
+    private RecyclerView recyclerView;
+    private Activity act;
     public static class CrimeViewHolder extends RecyclerView.ViewHolder{
         View v;
         public CrimeViewHolder(View itemView) {
@@ -34,6 +34,7 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
     }
 
     public CrimeRecyclerAdapter(Activity act,RecyclerView recyclerView) {
+        this.callbackSiglenton=CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual,act,recyclerView);
         this.recyclerView=recyclerView;
         this.act = act;
 
@@ -63,9 +64,8 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
         holder.v.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                ((AppCompatActivity)view.getContext()).startSupportActionMode(
-                        CrimeRecyclerAdapterActionCallbackSiglenton.getInstance(R.menu.menu_contextual,act,recyclerView)
-                );
+                ((AppCompatActivity)view.getContext()).startSupportActionMode(callbackSiglenton);
+                callbackSiglenton.selectIndexAt(recyclerView.getChildAdapterPosition(view));
                 return true;
             }
         });

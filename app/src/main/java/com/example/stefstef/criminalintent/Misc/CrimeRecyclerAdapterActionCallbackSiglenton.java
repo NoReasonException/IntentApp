@@ -3,6 +3,7 @@ package com.example.stefstef.criminalintent.Misc;
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.support.v7.view.ActionMode.Callback {
     private static CrimeRecyclerAdapterActionCallbackSiglenton instance=null;
+    private static String TAG="CrimeRecyclerAdapterActionCallbackSiglenton_LOG";
     private ArrayList<Integer>  selectedIndexes;
     private RecyclerView recyclerView;
     private int menuLayoutID=-1;
@@ -46,6 +48,7 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     }
     public void selectIndexAt(Integer index){
         this.selectedIndexes.add(index);
+        Log.i(TAG,"Item "+index+" Selected");
     }
 
     @Override
@@ -63,6 +66,7 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
         switch(item.getItemId()){
             case R.id.deleteCrime:
                 Snackbar.make(recyclerView,"Ok!",Snackbar.LENGTH_SHORT).show();
+                mode.finish();
                 return true;
             default:
                 return false;
