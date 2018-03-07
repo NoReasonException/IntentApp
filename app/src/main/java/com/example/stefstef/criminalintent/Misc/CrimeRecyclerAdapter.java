@@ -24,12 +24,15 @@ import java.text.DateFormat;
 
 public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdapter.CrimeViewHolder> {
     private static String TAG="CrimeRecyclerAdapterActionCallbackSiglenton_LOG";
-
     private CrimeRecyclerAdapterActionCallbackSiglenton callbackSiglenton;
-
+    private android.support.v4.app.Fragment fr;
     private RecyclerView recyclerView;
     private Activity act;
-    private android.support.v4.app.Fragment fr;
+
+    /***
+     * inner class CrimeViewHolder
+     * Just a simple holder , keeps the list_item_crime
+     */
     public static class CrimeViewHolder extends RecyclerView.ViewHolder{
         View v;
         public CrimeViewHolder(View itemView) {
@@ -46,6 +49,12 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
 
     }
 
+    /***
+     *
+     * @param parent    the parent view(RecycleView!)
+     * @param viewType  flags
+     * @return          A properly initialized ViewHolder
+     */
     @Override
     public CrimeRecyclerAdapter.CrimeViewHolder onCreateViewHolder(ViewGroup parent,int viewType){
         return new CrimeRecyclerAdapter.CrimeViewHolder(
@@ -53,6 +62,12 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
                         .inflate(R.layout.list_item_crime,parent,false));
 
     }
+
+    /***
+     * called to properly update a ViewHolder who keeps the data for any position
+     * @param holder    the holder to update
+     * @param position  The position
+     */
     @Override
     public void onBindViewHolder(CrimeViewHolder holder, int position) {
         Crime m=CrimeLab.getInstance(CrimeRecyclerAdapter.this.act).getCrimes().get(position);
@@ -64,7 +79,9 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
     }
 
     /***
-     * Activates the CAB for multiple choice (Same as CHOICE_MODE_MULTIPLE_MODAL on listviews!)
+     * Updates each holders view to handle touches (ActionMode or jump to CrimePagerFragment)
+     * @param holder the holder to update .
+     *
      */
     private void onBindContextualActionBar(CrimeViewHolder holder){
         holder.v.setOnLongClickListener(new View.OnLongClickListener() {
@@ -90,6 +107,10 @@ public class CrimeRecyclerAdapter extends RecyclerView.Adapter<CrimeRecyclerAdap
         });
     }
 
+    /***
+     *
+     * @return the number of crimes!
+     */
     @Override
     public int getItemCount(){
         return CrimeLab.getInstance(this.act).getCrimes().size();

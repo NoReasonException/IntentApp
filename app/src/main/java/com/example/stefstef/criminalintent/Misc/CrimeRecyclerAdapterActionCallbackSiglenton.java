@@ -29,8 +29,12 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     private Activity act;
 
 
-
-
+    /***
+     * CallBacks to ActionMode Siglenton
+     * @param menuLayoutID the menu to render
+     * @param act          Parent Activity
+     * @param recyclerView The RecuclerView who adapter belongs
+     */
     private CrimeRecyclerAdapterActionCallbackSiglenton(int menuLayoutID,
                                                         Activity act,
                                                         RecyclerView recyclerView){
@@ -38,11 +42,18 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
         this.recyclerView=recyclerView;
         this.act =act;
 
-
         this.selectedIndexes=new ArrayList<>();
+        //Optimisation //
         this.selectedIndexes.ensureCapacity(CrimeLab.getInstance(this.act).getCrimes().size()/2);
     }
 
+    /***
+     *
+     * @param menuLayoutID  the menu to render
+     * @param act           The parant Activity
+     * @param recyclerView  The RecyclerView
+     * @return              A single instance of callbacks to activate ActionMode
+     */
     public static CrimeRecyclerAdapterActionCallbackSiglenton getInstance(int menuLayoutID,
                                                                           Activity act,
                                                                           RecyclerView recyclerView){
@@ -51,6 +62,14 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
         }
         return instance;
     }
+
+    /***
+     *
+     * @param index index to select (or deselect)
+     * @return      true if the actionMode is activated , false otherwise
+     * @Note        if the actionMode is deactivated , then a click must
+     *                      Redirect the user to CrimePagerActivity
+     */
     public boolean selectIndexAt(Integer index){
         if(this.allowMultiChoice){
             if(this.selectedIndexes.contains(index)){ //already selected , deselect
@@ -67,7 +86,12 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     }
 
 
-
+    /***
+     * This method tries to mimic the classic ListViews , MultiChoiceModeListener.onItemCheckedState
+     * It is called when a view has changed status (selected or deselect)
+     * @param i , the index of event
+     * @param b , it is selected or deselected?
+     */
     public void onItemCheckedStateChanged(int i, boolean b) {
         if(b)
             this.recyclerView.getChildAt(i).animate().translationXBy(50f).setDuration(300).start();
@@ -77,6 +101,13 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
 
         Log.i(TAG,"select "+i+" state "+b);
     }
+
+    /***
+     * Calls when a ActionMode created
+     * @param mode  The ActionMode object
+     * @param menu  The menu to inflate
+     * @return true if it is created successfully!
+     */
     @Override
     public boolean onCreateActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
         this.allowMultiChoice=true;
@@ -88,6 +119,13 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
     public boolean onPrepareActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
         return false;
     }
+
+    /***
+     * Called when the action is clicked!
+     * @param mode
+     * @param item
+     * @return
+     */
     @Override
     public boolean onActionItemClicked(android.support.v7.view.ActionMode mode, MenuItem item) {
         switch(item.getItemId()){
@@ -99,10 +137,11 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
                 for (Crime cr:deletedCrimes) {
                     CrimeLab.getInstance(this.act).getCrimes().remove(cr);
                 }
+                /*Set the undo Snackbar!*/
                 Snackbar.make(recyclerView, String.format("You deleted %d %s",
                         this.selectedIndexes.size(),
-                        this.selectedIndexes.size()>1?"crimes":"crime"),Snackbar.LENGTH_SHORT).setAction(
-                        "Undo", new View.OnClickListener() {
+                        this.selectedIndexes.size()>1?"crimes":"crime"),Snackbar.LENGTH_SHORT)
+                        .setAction("Undo", new View.OnClickListener() {
                             ArrayList<Crime> restoreCrimes;
                             @Override
                             public void onClick(View view) {
@@ -127,14 +166,23 @@ public class CrimeRecyclerAdapterActionCallbackSiglenton implements android.supp
                 return false;
         }
     }
+
+    /***
+     * Called when the ActionMode is about to terminate itself
+     * @param mode
+     */
     @Override
     public void onDestroyActionMode(android.support.v7.view.ActionMode mode) {
-        this.selectedIndexes.clear();
-        this.restoreViews();
-        this.allowMultiChoice=false;
-        this.act.getActionBar().show();
+        this.selectedIndexes.clear();   //clear selected items
+        this.restoreViews();            //restore animated views
+        this.allowMultiChoice=false;    //deactivate choice mode(click will react differently)
+        this.act.getActionBar().show(); //show the Appbar Again!
 
     }
+
+    /***
+     * restores the views back in ther initial position (undo whatever onItemCheckedStateChanged does!)
+     */
     private void restoreViews(){
         View tmp;
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
