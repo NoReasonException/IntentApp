@@ -45,19 +45,6 @@ public class CrimePicker extends DialogFragment {
         picker.setTargetFragment(targetFragment,requestCode);
         return picker;
     }
-    /***
-     *
-     * @param request               The request code (usually exist as static final integer on sender-class)
-     * @param responce              The responce code(usually exist as static final integer on derived-class)
-     * @throws IllegalStateException
-     *              Why? it is expected to initialize the date and calendar members on onCreateDialog
-     *              if not? Boom!
-     */
-    protected void sendDate(final int request,final int responce){
-        if(date==null)throw new IllegalStateException("you must initialize this.date and this.calendar on CrimePicker.onCreateDialog() ");
-        Intent intent = new Intent();
-        intent.putExtra(CrimeFragment.DIALOG_DATE_TAG,this.date);
-        this.getTargetFragment().onActivityResult(request,responce,intent);
-    }
+
 
 }

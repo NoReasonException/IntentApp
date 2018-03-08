@@ -49,8 +49,10 @@ public class CrimePagerActivity extends FragmentActivity {
              */
             @Override
             public Fragment getItem(int position) {
-                return CrimeFragment.getInstance(CrimeLab.getInstance(CrimePagerActivity.this)
-                .getCrimes().get(position).getId());
+                Fragment fr = CrimeFragment.getInstance(CrimeLab.getInstance(CrimePagerActivity.this)
+                        .getCrimes().get(position).getId());
+
+                return fr;
             }
 
             /***

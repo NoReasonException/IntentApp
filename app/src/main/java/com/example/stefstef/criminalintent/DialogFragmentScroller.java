@@ -1,5 +1,6 @@
 package com.example.stefstef.criminalintent;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -13,7 +14,11 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.view.ViewGroup;
+
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import android.os.Handler;
 import android.view.View;
 import android.os.Bundle;
@@ -26,6 +31,7 @@ import android.util.Log;
  *
  */
 public class DialogFragmentScroller extends DialogFragment {
+    public static int                               NEW_DATE_RESPONCE=12;
     //--------------------------------------------Private Section----------------------------------------------------------------//
     private static java.lang.String                 FRAGMENT_LIST_HASH ="FRAG_LIST#com.example.stefstef.criminalintent.DialogFragmentScroller";
     private static java.lang.String                 CRIME_CURR_DATE="DAT_CURR#com.example.stefstef.criminalintent.DialogFragmentScroller";
@@ -37,7 +43,13 @@ public class DialogFragmentScroller extends DialogFragment {
     private ArrayList<Fragment>                     fragments;
     private LinearLayout                            radioLay;
     private FloatingActionButton                    saveBtn;
-    private java.util.Date                          globalDate;
+    private static java.util.Date                   globalDate;
+
+    public static void submitDateChange(java.util.Date newDate){
+        DialogFragmentScroller.globalDate=newDate;
+        Log.i(DialogFragmentScroller.TAG, String.format("Date updated , is %s ", DateFormat.getDateInstance().format(DialogFragmentScroller.globalDate)));
+
+    }
     /**
      * getInstance(...
      * @param fragmentsList The fragment's.class
@@ -50,13 +62,14 @@ public class DialogFragmentScroller extends DialogFragment {
         args.putSerializable(DialogFragmentScroller.FRAGMENT_LIST_HASH,fragmentsList);
         args.putSerializable(DialogFragmentScroller.CRIME_CURR_DATE,curr_date);
         dialog.setArguments(args);
+        Log.i(DialogFragmentScroller.TAG, String.format("%d fragments with %s date on FragmentScrolller",fragmentsList.size(), DateFormat.getDateInstance().format(curr_date)));
         return dialog;
     }
     @Override
     @SuppressWarnings("unchecked")
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.globalDate=(java.util.Date)
+        DialogFragmentScroller.globalDate=(java.util.Date)
                 this.getArguments().getSerializable(DialogFragmentScroller.CRIME_CURR_DATE);
         this.fragmentsClasses=(ArrayList<Class<? extends CrimePicker>>)
                 this.getArguments().getSerializable(DialogFragmentScroller.FRAGMENT_LIST_HASH);
@@ -95,10 +108,11 @@ public class DialogFragmentScroller extends DialogFragment {
         this.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if(date==null)throw new IllegalStateException("you must initialize this.date and this.calendar on CrimePicker.onCreateDialog() ");
+                if(globalDate==null)throw new IllegalStateException("you must initialize this.date and this.calendar on CrimePicker.onCreateDialog() ");
                 Intent intent = new Intent();
-                intent.putExtra(CrimeFragment.DIALOG_DATE_TAG,this.date);
-                getTargetFragment().onActivityResult(CrimeFragment.REQUEST_NEW_DATE,1,null);*/
+                intent.putExtra(CrimeFragment.DIALOG_DATE_TAG,globalDate);
+                getTargetFragment().onActivityResult(CrimeFragment.REQUEST_NEW_DATE,DialogFragmentScroller.NEW_DATE_RESPONCE,intent);
+                getFragmentManager().beginTransaction().remove(DialogFragmentScroller.this).commit();
 
             }
         });
@@ -153,7 +167,7 @@ public class DialogFragmentScroller extends DialogFragment {
                     for (final Class<? extends CrimePicker> f:DialogFragmentScroller.this.fragmentsClasses){
                         try{
                             DialogFragmentScroller.this.fragments.add(
-                                    CrimePicker.getInstance(globalDate,null,12,f.newInstance())
+                                    CrimePicker.getInstance(DialogFragmentScroller.globalDate,null,12,f.newInstance())
                             );
                             DialogFragmentScroller.this.setRadioButtonOnPosition(position);
 
