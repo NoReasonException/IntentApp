@@ -1,5 +1,8 @@
 package com.example.stefstef.criminalintent;
 
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import java.security.InvalidParameterException;
@@ -35,7 +38,7 @@ public class DialogFragmentScroller extends DialogFragment {
     private ArrayList<Class<? extends CrimePicker>> fragmentsClasses;
     private ArrayList<Fragment>                     fragments;
     private LinearLayout                            radioLay;
-
+    private FloatingActionButton                    saveBtn;
     /**
      * getInstance(...
      * @param fragmentsList The fragment's.class
@@ -80,6 +83,16 @@ public class DialogFragmentScroller extends DialogFragment {
     private void initializeReferences(View v){
         this.radioLay=v.findViewById(R.id.radioLinear);
         this.pager=v.findViewById(R.id.viewPager);
+        this.saveBtn=v.findViewById(R.id.scrollerFab);
+
+    }
+    private void initializeHandlers(){
+        this.saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(DialogFragmentScroller.this.dialogView,"Saved!",Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     /***
@@ -117,6 +130,7 @@ public class DialogFragmentScroller extends DialogFragment {
         this.dialogView = infl.inflate(R.layout.datetime_config,viewGroup);
         this.initializeReferences(dialogView);
         this.initializeRadioButtons();
+        this.initializeHandlers();
         final FragmentManager fm = this.getChildFragmentManager();
         this.pager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
