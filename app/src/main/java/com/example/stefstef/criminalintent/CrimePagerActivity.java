@@ -2,6 +2,7 @@ package com.example.stefstef.criminalintent;
 
 import com.example.stefstef.criminalintent.Models.CrimeLab;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.UUID;
 
@@ -17,7 +19,7 @@ import java.util.UUID;
  */
 
 public class CrimePagerActivity extends FragmentActivity {
-
+    private static java.lang.String TAG="CrimePagerActivity_LOG";
     private ViewPager pager ;
     /**
      * Perform initialization of all fragments and loaders.
@@ -27,8 +29,6 @@ public class CrimePagerActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Because of simplicity , we inject an ViewPager directy instead of
-        //Inflate a .xml file
         this.pager=new ViewPager(this);
         this.pager.setId(R.id.crimeViewPager);
         setContentView(this.pager);

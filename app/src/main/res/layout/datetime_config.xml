@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_input_add"
+            android:src="@android:drawable/ic_menu_save"
             android:tint="@android:color/white"
             android:id="@+id/scrollerFab"
 
